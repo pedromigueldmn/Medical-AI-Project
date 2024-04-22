@@ -1,3 +1,4 @@
+:- encoding(utf16-LE).
 %forward chaining
 :- encoding(utf8).
 

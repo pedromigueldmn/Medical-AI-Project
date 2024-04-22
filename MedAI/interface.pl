@@ -1,3 +1,4 @@
+:- encoding(utf16-LE).
 :- encoding(utf8).
 
 :-dynamic(fact/1),

@@ -1,4 +1,5 @@
 :- encoding(utf8).
+:- encoding(utf16-LE).
 
 %diarreia
 if 'urgencia_em_defecar' and 'colicas' and '0-3' then 1.

@@ -1,4 +1,4 @@
-
+:- encoding(utf16-LE).
 % ----------------------------------------------------- EXPLICAÇÃO ESQUEMA -----------------------------------------------------
 
 %doenca(nome,[sintomas],[soluçoes(nome,intervalo_idade,dose,descricao,gravida_pode_tomar,tipo_de_farmacologico)],link)
