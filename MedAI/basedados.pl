@@ -1,11 +1,9 @@
-:- encoding(utf16-LE).
 % ----------------------------------------------------- EXPLICAÇÃO ESQUEMA -----------------------------------------------------
 
 %doenca(nome,[sintomas],[soluçoes(nome,intervalo_idade,dose,descricao,gravida_pode_tomar,tipo_de_farmacologico)],link)
 %tipo_de_farmacológico: i- injetavel, c-comprimido, x-xarope, g-gotas
 %gravida_pode_tomar: s- sim, n- não
 %intervalo_idade: 0-3, 4-10, 11-17, 18+    (representam bebés, crianças, adolescentes e adultos)
-:- encoding(utf8).
 
 
 doenca('faringite',
@@ -34,7 +32,7 @@ doenca('faringite',
         naofarmacologico('gargarejo_com_agua_sal', 'Gargarejar com uma solução de água morna e sal várias vezes ao dia pode ajudar a aliviar a dor de garganta.'),
         naofarmacologico('repouso', 'Manter um bom repouso ajuda o corpo a combater a infecção.'),
         naofarmacologico('ingestao_de_liquidos', 'Beber líquidos em abundância ajuda a manter a garganta hidratada e alivia a dor.'),
-        naofarmacologico('umidificador', 'Manter o ar úmido pode ajudar a aliviar a dor de garganta em ambientes secos.')
+        naofarmacologico('umidificador', 'Manter o ar úmido pode ajudar a aliviar a dor de garganta em ambientes seco1s.')
     ],
     'https://www.cuf.pt/saude-a-z/faringite').
     

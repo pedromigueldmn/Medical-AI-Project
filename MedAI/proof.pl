@@ -1,5 +1,3 @@
-:- encoding(utf16-LE).
-:- encoding(utf8).
 
 % result( P, Proof) Proof is a proof that P is true
 :- op( 800, fx, if).

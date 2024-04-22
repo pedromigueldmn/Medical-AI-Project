@@ -1,6 +1,6 @@
-:- encoding(utf16-LE).
+
 %forward chaining
-:- encoding(utf8).
+
 
 :- op( 800, fx, if).
 :- op( 700, xfx, then).
