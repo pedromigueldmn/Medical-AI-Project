@@ -32,10 +32,10 @@ questao1:- write('**************************************************************
            write('**  3 - Entre 11-17 anos (adolescente)'), nl,
            write('**  4 - Maior de 18 anos (adulto)'), nl, nl,
            read(A1),
-           (   (A1 == 1), assert(fact('0-3')), questao2;
-               (A1 == 2), assert(fact('4-10')), questao2;
-               (A1 == 3), assert(fact('11-17')), questao2;
-               (A1 == 4), assert(fact('18+')), questao2).
+           (   (A1 == 1), Idade='0-3', questao2;
+               (A1 == 2), Idade='4-10',questao2;
+               (A1 == 3), Idade='11-17',questao2;
+               (A1 == 4), Idade='18+',questao2).
 
 questao2:- write('********************************************************************************************************'), nl,
            write('**  Qual o seu gênero?'), nl,
@@ -54,122 +54,144 @@ questao3:- write('**************************************************************
                (A3 == 2), assert(fact('n')), questao4).
 
 questao4:- write('********************************************************************************************************'), nl,
-    write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
-    write_sintomas,
-    read(A4),
-    (
-    (A4 == 1), assert(fact(gases)), questao5;
-    (A4 == 2), assert(fact(colicas)), questao5;
-    (A4 == 3), assert(fact(urgencia_em_defecar)), questao5;
-    (A4 == 4), assert(fact(nauseas_vomitos)), questao5;
-    (A4 == 5), assert(fact(dificuldade_respirar)), questao5;
-    (A4 == 6), assert(fact(respiracao_rapida_curta)), questao5;
-    (A4 == 7), assert(fact(tosse)), questao5;
-    (A4 == 8), assert(fact(aperto_peito)), questao5;
-    (A4 == 9), assert(fact(visao_desfocada)), questao5;
-    (A4 == 10), assert(fact(tonturas)), questao5;
-    (A4 == 11), assert(fact(sangramento_nasal)), questao5;
-    (A4 == 12), assert(fact(dor_de_cabeca)), questao5;
-    (A4 == 13), assert(fact(sensibilidade_luz)), questao5;
-    (A4 == 14), assert(fact(febre)), questao5;
-    (A4 == 15), assert(fact(congestao_nasal)), questao5;
-    (A4 == 16), assert(fact(dores_musculares)), questao5;
-    (A4 == 17), assert(fact(dor_de_garganta)), questao5;
-    (A4 == 18), assert(fact(dificuldade_em_engolir)), questao5;
-    (A4 == 19), assert(fact(rouquidao)), questao5;
-    (A4 == 20), assert(fact(nariz_entupido)), questao5;
-    (A4 == 21), assert(fact(espirros)), questao5;
-    (A4 == 22), assert(fact(coceira_olhos)), questao5;
-    (A4 == 23), assert(fact(coceira_garganta)), questao5;
-    (A4 == 24), assert(fact(azia)), questao5;
-    (A4 == 25), assert(fact(regurgitacao)), questao5;
-    (A4 == 26), assert(fact(dor_lombar)), questao5;
-    (A4 == 27), assert(fact(dormencia_gluteos_pernas)), questao5;
-    (A4 == 28), assert(fact(dificuldade_em_adormecer)), questao5;
-    (A4 == 29), assert(fact(acordar_cedo_demais)), questao5;
-    (A4 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao5;
-    (A4 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao5;
-    (A4 == 32), assert(fact(diminuicao_da_flexibilidade)), questao5;
-    (A4 == 33), assert(fact(sensacao_de_fadiga)), questao5).
-
+            write('**  Tem preferência por algum tipo de farmacológico?'), nl,
+            write('**  1 - Sim'), nl,
+            write('**  2 - Não'), nl, nl,
+            read(A4),
+            (   (A4 == 1), questao5;
+                (A4 == 2),Farma='_',questao6).
 
 questao5:- write('********************************************************************************************************'), nl,
-    write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
-    write_sintomas,
-    read(A5),
-    (
-    (A5 == 1), assert(fact(gases)), questao6;
-    (A5 == 2), assert(fact(colicas)), questao6;
-    (A5 == 3), assert(fact(urgencia_em_defecar)), questao6;
-    (A5 == 4), assert(fact(nauseas_vomitos)), questao6;
-    (A5 == 5), assert(fact(dificuldade_respirar)), questao6;
-    (A5 == 6), assert(fact(respiracao_rapida_curta)), questao6;
-    (A5 == 7), assert(fact(tosse)), questao6;
-    (A5 == 8), assert(fact(aperto_peito)), questao6;
-    (A5 == 9), assert(fact(visao_desfocada)), questao6;
-    (A5 == 10), assert(fact(tonturas)), questao6;
-    (A5 == 11), assert(fact(sangramento_nasal)), questao6;
-    (A5 == 12), assert(fact(dor_de_cabeca)), questao6;
-    (A5 == 13), assert(fact(sensibilidade_luz)), questao6;
-    (A5 == 14), assert(fact(febre)), questao6;
-    (A5 == 15), assert(fact(congestao_nasal)), questao6;
-    (A5 == 16), assert(fact(dores_musculares)), questao6;
-    (A5 == 17), assert(fact(dor_de_garganta)), questao6;
-    (A5 == 18), assert(fact(dificuldade_em_engolir)), questao6;
-    (A5 == 19), assert(fact(rouquidao)), questao6;
-    (A5 == 20), assert(fact(nariz_entupido)), questao6;
-    (A5 == 21), assert(fact(espirros)), questao6;
-    (A5 == 22), assert(fact(coceira_olhos)), questao6;
-    (A5 == 23), assert(fact(coceira_garganta)), questao6;
-    (A5 == 24), assert(fact(azia)), questao6;
-    (A5 == 25), assert(fact(regurgitacao)), questao6;
-    (A5 == 26), assert(fact(dor_lombar)), questao6;
-    (A5 == 27), assert(fact(dormencia_gluteos_pernas)), questao6;
-    (A5 == 28), assert(fact(dificuldade_em_adormecer)), questao6;
-    (A5 == 29), assert(fact(acordar_cedo_demais)), questao6;
-    (A5 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao6;
-    (A5 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao6;
-    (A5 == 32), assert(fact(diminuicao_da_flexibilidade)), questao6;
-    (A5 == 33), assert(fact(sensacao_de_fadiga)), questao6).
+            write('**  Qual o tipo de framacológico que prefere?'), nl,
+            write('**  1 - Xarope'), nl,
+            write('**  2 - Gotas'), nl,
+            write('**  3 - Comprimido'), nl,
+            write('**  4 - Spray'), nl, nl,
+            read(A5),
+            (   (A5 == 1), Farma= 'x', questao6;
+                (A5 == 2), Farma= 'g', questao6;
+                (A5 == 1), Farma= 'c', questao6;
+                (A5 == 2), Farma= 's', questao6).
+
 
 questao6:- write('********************************************************************************************************'), nl,
     write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
     write_sintomas,
     read(A6),
     (
-    (A6 == 1), assert(fact(gases)), resultado;
-    (A6 == 2), assert(fact(colicas)), resultado;
-    (A6 == 3), assert(fact(urgencia_em_defecar)), resultado;
-    (A6 == 4), assert(fact(nauseas_vomitos)), resultado;
-    (A6 == 5), assert(fact(dificuldade_respirar)), resultado;
-    (A6 == 6), assert(fact(respiracao_rapida_curta)), resultado;
-    (A6 == 7), assert(fact(tosse)), resultado;
-    (A6 == 8), assert(fact(aperto_peito)), resultado;
-    (A6 == 9), assert(fact(visao_desfocada)), resultado;
-    (A6 == 10), assert(fact(tonturas)), resultado;
-    (A6 == 11), assert(fact(sangramento_nasal)), resultado;
-    (A6 == 12), assert(fact(dor_de_cabeca)), resultado;
-    (A6 == 13), assert(fact(sensibilidade_luz)), resultado;
-    (A6 == 14), assert(fact(febre)), resultado;
-    (A6 == 15), assert(fact(congestao_nasal)), resultado;
-    (A6 == 16), assert(fact(dores_musculares)), resultado;
-    (A6 == 17), assert(fact(dor_de_garganta)), resultado;
-    (A6 == 18), assert(fact(dificuldade_em_engolir)), resultado;
-    (A6 == 19), assert(fact(rouquidao)), resultado;
-    (A6 == 20), assert(fact(nariz_entupido)), resultado;
-    (A6 == 21), assert(fact(espirros)), resultado;
-    (A6 == 22), assert(fact(coceira_olhos)), resultado;
-    (A6 == 23), assert(fact(coceira_garganta)), resultado;
-    (A6 == 24), assert(fact(azia)), resultado;
-    (A6 == 25), assert(fact(regurgitacao)), resultado;
-    (A6 == 26), assert(fact(dor_lombar)), resultado;
-    (A6 == 27), assert(fact(dormencia_gluteos_pernas)), resultado;
-    (A6 == 28), assert(fact(dificuldade_em_adormecer)), resultado;
-    (A6 == 29), assert(fact(acordar_cedo_demais)), resultado;
-    (A6 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), resultado;
-    (A6 == 31), assert(fact(sensacao_de_sono_nao_reparador)), resultado;
-    (A6 == 32), assert(fact(diminuicao_da_flexibilidade)), resultado;
-    (A6 == 33), assert(fact(sensacao_de_fadiga)), resultado).
+    (A6 == 1), assert(fact(gases)), questao5;
+    (A6 == 2), assert(fact(colicas)), questao5;
+    (A6 == 3), assert(fact(urgencia_em_defecar)), questao5;
+    (A6 == 4), assert(fact(nauseas_vomitos)), questao5;
+    (A6 == 5), assert(fact(dificuldade_respirar)), questao5;
+    (A6 == 6), assert(fact(respiracao_rapida_curta)), questao5;
+    (A6 == 7), assert(fact(tosse)), questao5;
+    (A6 == 8), assert(fact(aperto_peito)), questao5;
+    (A6 == 9), assert(fact(visao_desfocada)), questao5;
+    (A6 == 10), assert(fact(tonturas)), questao5;
+    (A6 == 11), assert(fact(sangramento_nasal)), questao5;
+    (A6 == 12), assert(fact(dor_de_cabeca)), questao5;
+    (A6 == 13), assert(fact(sensibilidade_luz)), questao5;
+    (A6 == 14), assert(fact(febre)), questao5;
+    (A6 == 15), assert(fact(congestao_nasal)), questao5;
+    (A6 == 16), assert(fact(dores_musculares)), questao5;
+    (A6 == 17), assert(fact(dor_de_garganta)), questao5;
+    (A6 == 18), assert(fact(dificuldade_em_engolir)), questao5;
+    (A6 == 19), assert(fact(rouquidao)), questao5;
+    (A6 == 20), assert(fact(nariz_entupido)), questao5;
+    (A6 == 21), assert(fact(espirros)), questao5;
+    (A6 == 22), assert(fact(coceira_olhos)), questao5;
+    (A6 == 23), assert(fact(coceira_garganta)), questao5;
+    (A6 == 24), assert(fact(azia)), questao5;
+    (A6 == 25), assert(fact(regurgitacao)), questao5;
+    (A6 == 26), assert(fact(dor_lombar)), questao5;
+    (A6 == 27), assert(fact(dormencia_gluteos_pernas)), questao5;
+    (A6 == 28), assert(fact(dificuldade_em_adormecer)), questao5;
+    (A6 == 29), assert(fact(acordar_cedo_demais)), questao5;
+    (A6 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao5;
+    (A6 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao5;
+    (A6 == 32), assert(fact(diminuicao_da_flexibilidade)), questao5;
+    (A6 == 33), assert(fact(sensacao_de_fadiga)), questao5).
+
+
+questao7:- write('********************************************************************************************************'), nl,
+    write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
+    write_sintomas,
+    read(A7),
+    (
+    (A7 == 1), assert(fact(gases)), questao6;
+    (A7 == 2), assert(fact(colicas)), questao6;
+    (A7 == 3), assert(fact(urgencia_em_defecar)), questao6;
+    (A7 == 4), assert(fact(nauseas_vomitos)), questao6;
+    (A7 == 5), assert(fact(dificuldade_respirar)), questao6;
+    (A7 == 6), assert(fact(respiracao_rapida_curta)), questao6;
+    (A7 == 7), assert(fact(tosse)), questao6;
+    (A7 == 8), assert(fact(aperto_peito)), questao6;
+    (A7 == 9), assert(fact(visao_desfocada)), questao6;
+    (A7 == 10), assert(fact(tonturas)), questao6;
+    (A7 == 11), assert(fact(sangramento_nasal)), questao6;
+    (A7 == 12), assert(fact(dor_de_cabeca)), questao6;
+    (A7 == 13), assert(fact(sensibilidade_luz)), questao6;
+    (A7 == 14), assert(fact(febre)), questao6;
+    (A7 == 15), assert(fact(congestao_nasal)), questao6;
+    (A7 == 16), assert(fact(dores_musculares)), questao6;
+    (A7 == 17), assert(fact(dor_de_garganta)), questao6;
+    (A7 == 18), assert(fact(dificuldade_em_engolir)), questao6;
+    (A7 == 19), assert(fact(rouquidao)), questao6;
+    (A7 == 20), assert(fact(nariz_entupido)), questao6;
+    (A7 == 21), assert(fact(espirros)), questao6;
+    (A7 == 22), assert(fact(coceira_olhos)), questao6;
+    (A7 == 23), assert(fact(coceira_garganta)), questao6;
+    (A7 == 24), assert(fact(azia)), questao6;
+    (A7 == 25), assert(fact(regurgitacao)), questao6;
+    (A7 == 26), assert(fact(dor_lombar)), questao6;
+    (A7 == 27), assert(fact(dormencia_gluteos_pernas)), questao6;
+    (A7 == 28), assert(fact(dificuldade_em_adormecer)), questao6;
+    (A7 == 29), assert(fact(acordar_cedo_demais)), questao6;
+    (A7 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao6;
+    (A7 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao6;
+    (A7 == 32), assert(fact(diminuicao_da_flexibilidade)), questao6;
+    (A7 == 33), assert(fact(sensacao_de_fadiga)), questao6).
+
+questao8:- write('********************************************************************************************************'), nl,
+    write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
+    write_sintomas,
+    read(A8),
+    (
+    (A8 == 1), assert(fact(gases)), resultado;
+    (A8 == 2), assert(fact(colicas)), resultado;
+    (A8 == 3), assert(fact(urgencia_em_defecar)), resultado;
+    (A8 == 4), assert(fact(nauseas_vomitos)), resultado;
+    (A8 == 5), assert(fact(dificuldade_respirar)), resultado;
+    (A8 == 6), assert(fact(respiracao_rapida_curta)), resultado;
+    (A8 == 7), assert(fact(tosse)), resultado;
+    (A8 == 8), assert(fact(aperto_peito)), resultado;
+    (A8 == 9), assert(fact(visao_desfocada)), resultado;
+    (A8 == 10), assert(fact(tonturas)), resultado;
+    (A8 == 11), assert(fact(sangramento_nasal)), resultado;
+    (A8 == 12), assert(fact(dor_de_cabeca)), resultado;
+    (A8 == 13), assert(fact(sensibilidade_luz)), resultado;
+    (A8 == 14), assert(fact(febre)), resultado;
+    (A8 == 15), assert(fact(congestao_nasal)), resultado;
+    (A8 == 16), assert(fact(dores_musculares)), resultado;
+    (A8 == 17), assert(fact(dor_de_garganta)), resultado;
+    (A8 == 18), assert(fact(dificuldade_em_engolir)), resultado;
+    (A8 == 19), assert(fact(rouquidao)), resultado;
+    (A8 == 20), assert(fact(nariz_entupido)), resultado;
+    (A8 == 21), assert(fact(espirros)), resultado;
+    (A8 == 22), assert(fact(coceira_olhos)), resultado;
+    (A8 == 23), assert(fact(coceira_garganta)), resultado;
+    (A8 == 24), assert(fact(azia)), resultado;
+    (A8 == 25), assert(fact(regurgitacao)), resultado;
+    (A8 == 26), assert(fact(dor_lombar)), resultado;
+    (A8 == 27), assert(fact(dormencia_gluteos_pernas)), resultado;
+    (A8 == 28), assert(fact(dificuldade_em_adormecer)), resultado;
+    (A8 == 29), assert(fact(acordar_cedo_demais)), resultado;
+    (A8 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), resultado;
+    (A8 == 31), assert(fact(sensacao_de_sono_nao_reparador)), resultado;
+    (A8 == 32), assert(fact(diminuicao_da_flexibilidade)), resultado;
+    (A8 == 33), assert(fact(sensacao_de_fadiga)), resultado).
+
 
 write_sintomas:- 
     write('********************************************************************************************************'), nl,
@@ -218,7 +240,7 @@ resultado:- write('*************************************************************
 
 resultadowrite(P):- write('O SEU PERFIL É: '),
             write('     *** '),write(P),write(' ***'),nl,nl,
-            write('     TRATAMENTO ACONSELHADO: '),perfil(P),nl,nl,
+            write('     TRATAMENTO ACONSELHADO: '),perfil(P,Farma),nl,nl,
             write('********************************************************************************************************'),
             retractall(fact(_)).
 

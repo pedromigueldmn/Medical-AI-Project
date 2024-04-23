@@ -344,19 +344,15 @@ doenca('refluxo_gastroesofagico',
     'https://www.cuf.pt/saude-a-z/refluxo-gastroesofagico').
 
 
-% Conversão de entrada '_' para 'n'
-converte_gravida('_', 'n') :- !.
-converte_gravida(Valor, Valor).
-
-% Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade e gravidez.
-procurardoenca(Sintoma1, Sintoma2, Sintoma3, Intervalo_Idade, Gravida) :-
+% Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
+procurardoenca(Sintoma1, Sintoma2, Sintoma3, Intervalo_Idade, Gravida, TipoFarmacologico) :-
     SintomasUsuario = [Sintoma1, Sintoma2, Sintoma3],
     findall(
         Doenca-TratamentosFiltrados,
         (
             doenca(Doenca, Sintomas, Tratamentos, _),
             (sintomas_criticos_validos(SintomasUsuario, Sintomas) ; sintomas_validos(Sintomas, Sintoma1, Sintoma2, Sintoma3)),
-            filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TratamentosFiltrados),
+            filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TipoFarmacologico, TratamentosFiltrados),
             TratamentosFiltrados \= []
         ),
         Resultados
@@ -390,243 +386,72 @@ sintomas_validos(Sintomas, Sintoma1, Sintoma2, Sintoma3) :-
     member(Sintoma2, Sintomas),
     member(Sintoma3, Sintomas).
 
-% Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade e gravidez, e incluindo sempre os não farmacológicos.
-filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TratamentosFiltrados) :-
-    converte_gravida(Gravida, GravidaConvertida),
+% Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
+filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TipoFarmacologico, TratamentosFiltrados) :-
     include(
-        solucao_valida(Intervalo_Idade, GravidaConvertida),
+        solucao_valida(Intervalo_Idade, Gravida, TipoFarmacologico),
         Tratamentos,
-        TratamentosFarmacologicosValidos
-    ),
-    include(
-        nao_farmacologico,
-        Tratamentos,
-        TratamentosNaoFarmacologicos
-    ),
-    append(TratamentosFarmacologicosValidos, TratamentosNaoFarmacologicos, TratamentosFiltrados).
+        TratamentosFiltrados
+    ).
 
-% Validar soluções farmacológicas conforme restrições de idade e gravidez.
-solucao_valida(Intervalo_Idade, Gravida, Solucao) :-
-    Solucao = farmacologico(_, Idade, _, _, Gravida_Pode_Tomar, _),
+% Validar soluções farmacológicas conforme restrições de idade, gravidez e tipo.
+solucao_valida(Intervalo_Idade, Gravida, TipoFarmacologico, Solucao) :-
+    Solucao = farmacologico(_, Idade, _, _, Gravida_Pode_Tomar, TipoFarmacologico_Doencas),
     Intervalo_Idade = Idade,
+    member(TipoFarmacologico, TipoFarmacologico_Doencas),
     (   Gravida = 's' -> Gravida_Pode_Tomar = 's'
     ;   Gravida = 'n' -> true
-    ;   GravidaConvertida = _-> true
+    ;   true
     ).
 
 % Checa se a solução é um tratamento não farmacológico.
-nao_farmacologico(Solucao) :-
+solucao_valida(_, _, _, Solucao) :-
     functor(Solucao, naofarmacologico, _).
 
 %Perfis
-perfil(1) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '0-3', _).
-perfil(2) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '4-10', _).
-perfil(3) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '11-17', _).
-perfil(4) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '18+', _).
-perfil(5) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '18+', 's').
-perfil(6) :- procurardoenca('urgencia_em_defecar', 'colicas', _, '18+', 'n').
-perfil(7) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '0-3', _).
-perfil(8) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '4-10', _).
-perfil(9) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '11-17', _).
-perfil(10) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '18+', _).
-perfil(11) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '18+', 's').
-perfil(12) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', '18+', 'n').
-perfil(13) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '0-3', _).
-perfil(14) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '4-10', _).
-perfil(15) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '11-17', _).
-perfil(16) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '18+', _).
-perfil(17) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '18+', 's').
-perfil(18) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', '18+', 'n').
+perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', _, I, G, T).
+perfil(2, I, G, T) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', I, G, T).
+perfil(3, I, G, T) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', I, G, T).
 
-perfil(19) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '0-3', _).
-perfil(20) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '4-10', _).
-perfil(21) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '11-17', _).
-perfil(22) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '18+', _).
-perfil(23) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '18+', 's').
-perfil(24) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, '18+', 'n').
-perfil(25) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '0-3', _).
-perfil(26) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '4-10', _).
-perfil(27) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '11-17', _).
-perfil(28) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '18+', _).
-perfil(29) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '18+', 's').
-perfil(30) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', '18+', 'n').
-perfil(31) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '0-3', _).
-perfil(32) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '4-10', _).
-perfil(33) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '11-17', _).
-perfil(34) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '18+', _).
-perfil(35) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '18+', 's').
-perfil(36) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', '18+', 'n').
+perfil(4, I, G, T) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, I, G, T).
+perfil(5, I, G, T) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', I, G, T).
+perfil(6, I, G, T) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', I, G, T).
 
-perfil(37) :- procurardoenca('aperto_peito', 'tonturas', _, '0-3', _).
-perfil(38) :- procurardoenca('aperto_peito', 'tonturas', _, '4-10', _).
-perfil(39) :- procurardoenca('aperto_peito', 'tonturas', _, '11-17', _).
-perfil(40) :- procurardoenca('aperto_peito', 'tonturas', _, '18+', _).
-perfil(41) :- procurardoenca('aperto_peito', 'tonturas', _, '18+', 's').
-perfil(42) :- procurardoenca('aperto_peito', 'tonturas', _, '18+', 'n').
-perfil(43) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '0-3', _).
-perfil(44) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '4-10', _).
-perfil(45) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '11-17', _).
-perfil(46) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '18+', _).
-perfil(47) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '18+', 's').
-perfil(48) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', '18+', 'n').
-perfil(49) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '0-3', _).
-perfil(50) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '4-10', _).
-perfil(51) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '11-17', _).
-perfil(52) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '18+', _).
-perfil(53) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '18+', 's').
-perfil(54) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', '18+', 'n').
+perfil(7, I, G, T) :- procurardoenca('aperto_peito', 'tonturas', _, I, G, T).
+perfil(8, I, G, T) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', I, G, T).
+perfil(9, I, G, T) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', I, G, T).
 
-perfil(55) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '0-3', _).
-perfil(56) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '4-10', _).
-perfil(57) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '11-17', _).
-perfil(58) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '18+', _).
-perfil(59) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '18+', 's').
-perfil(60) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, '18+', 'n').
-perfil(61) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '0-3', _).
-perfil(62) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '4-10', _).
-perfil(63) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '11-17', _).
-perfil(64) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '18+', _).
-perfil(65) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '18+', 's').
-perfil(66) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', '18+', 'n').
-perfil(67) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '0-3', _).
-perfil(68) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '4-10', _).
-perfil(69) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '11-17', _).
-perfil(70) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '18+', _).
-perfil(71) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '18+', 's').
-perfil(72) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', '18+', 'n').
+perfil(10, I, G, T) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, I, G, T).
+perfil(11, I, G, T) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
+perfil(12, I, G, T) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
 
-perfil(73) :- procurardoenca('dor_de_cabeca', 'febre', _, '0-3', _).
-perfil(74) :- procurardoenca('dor_de_cabeca', 'febre', _, '4-10', _).
-perfil(75) :- procurardoenca('dor_de_cabeca', 'febre', _, '11-17', _).
-perfil(76) :- procurardoenca('dor_de_cabeca', 'febre', _, '18+', _).
-perfil(77) :- procurardoenca('dor_de_cabeca', 'febre', _, '18+', 's').
-perfil(78) :- procurardoenca('dor_de_cabeca', 'febre', _, '18+', 'n').
-perfil(79) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '0-3', _).
-perfil(80) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '4-10', _).
-perfil(81) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '11-17', _).
-perfil(82) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '18+', _).
-perfil(83) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '18+', 's').
-perfil(84) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', '18+', 'n').
-perfil(85) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '0-3', _).
-perfil(86) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '4-10', _).
-perfil(87) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '11-17', _).
-perfil(88) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '18+', _).
-perfil(89) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '18+', 's').
-perfil(90) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', '18+', 'n').
+perfil(13, I, G, T) :- procurardoenca('dor_de_cabeca', 'febre', _, I, G, T).
+perfil(14, I, G, T) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', I, G, T).
+perfil(15, I, G, T) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', I, G, T).
 
-perfil(91) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '0-3', _).
-perfil(92) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '4-10', _).
-perfil(93) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '11-17', _).
-perfil(94) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '18+', _).
-perfil(95) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '18+', 's').
-perfil(96) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, '18+', 'n').
-perfil(97) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '0-3', _).
-perfil(98) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '4-10', _).
-perfil(99) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '11-17', _).
-perfil(100) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '18+', _).
-perfil(101) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '18+', 's').
-perfil(102) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', '18+', 'n').
-perfil(103) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '0-3', _).
-perfil(104) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '4-10', _).
-perfil(105) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '11-17', _).
-perfil(106) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '18+', _).
-perfil(107) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '18+', 's').
-perfil(108) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', '18+', 'n').
+perfil(16, I, G, T) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, I, G, T).
+perfil(17, I, G, T) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', I, G, T).
+perfil(18, I, G, T) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', I, G, T).
 
-perfil(109) :- procurardoenca('nariz_entupido', 'espirros', _, '0-3', _).
-perfil(110) :- procurardoenca('nariz_entupido', 'espirros', _, '4-10', _).
-perfil(111) :- procurardoenca('nariz_entupido', 'espirros', _, '11-17', _).
-perfil(112) :- procurardoenca('nariz_entupido', 'espirros', _, '18+', _).
-perfil(113) :- procurardoenca('nariz_entupido', 'espirros', _, '18+', 's').
-perfil(114) :- procurardoenca('nariz_entupido', 'espirros', _, '18+', 'n').
-perfil(115) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '0-3', _).
-perfil(116) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '4-10', _).
-perfil(117) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '11-17', _).
-perfil(118) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '18+', _).
-perfil(119) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '18+', 's').
-perfil(120) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', '18+', 'n').
-perfil(121) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '0-3', _).
-perfil(122) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '4-10', _).
-perfil(123) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '11-17', _).
-perfil(124) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '18+', _).
-perfil(125) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '18+', 's').
-perfil(126) :- procurardoenca('espirros', 'febre', 'dor_abdominal', '18+', 'n').
+perfil(19, I, G, T) :- procurardoenca('nariz_entupido', 'espirros', _, I, G, T).
+perfil(20, I, G, T) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', I, G, T).
+perfil(21, I, G, T) :- procurardoenca('espirros', 'febre', 'dor_abdominal', I, G, T).
 
-perfil(127) :- procurardoenca('coceira_garganta', 'espirros', _, '0-3', _).
-perfil(128) :- procurardoenca('coceira_garganta', 'espirros', _, '4-10', _).
-perfil(129) :- procurardoenca('coceira_garganta', 'espirros', _, '11-17', _).
-perfil(130) :- procurardoenca('coceira_garganta', 'espirros', _, '18+', _).
-perfil(131) :- procurardoenca('coceira_garganta', 'espirros', _, '18+', 's').
-perfil(132) :- procurardoenca('coceira_garganta', 'espirros', _, '18+', 'n').
-perfil(133) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '0-3', _).
-perfil(134) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '4-10', _).
-perfil(135) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '11-17', _).
-perfil(136) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '18+', _).
-perfil(137) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '18+', 's').
-perfil(138) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', '18+', 'n').
-perfil(139) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '0-3', _).
-perfil(140) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '4-10', _).
-perfil(141) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '11-17', _).
-perfil(142) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '18+', _).
-perfil(143) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '18+', 's').
-perfil(144) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', '18+', 'n').
+perfil(22, I, G, T) :- procurardoenca('coceira_garganta', 'espirros', _, I, G, T).
+perfil(23, I, G, T) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
+perfil(24, I, G, T) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
 
-perfil(145) :- procurardoenca('azia', 'regurgitacao', _, '0-3', _).
-perfil(146) :- procurardoenca('azia', 'regurgitacao', _, '4-10', _).
-perfil(147) :- procurardoenca('azia', 'regurgitacao', _, '11-17', _).
-perfil(148) :- procurardoenca('azia', 'regurgitacao', _, '18+', _).
-perfil(149) :- procurardoenca('azia', 'regurgitacao', _, '18+', 's').
-perfil(150) :- procurardoenca('azia', 'regurgitacao', _, '18+', 'n').
-perfil(151) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '0-3', _).
-perfil(152) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '4-10', _).
-perfil(153) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '11-17', _).
-perfil(154) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', _).
-perfil(155) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', 's').
-perfil(156) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', 'n').
-perfil(157) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '0-3', _).
-perfil(158) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '4-10', _).
-perfil(159) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '11-17', _).
-perfil(160) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', _).
-perfil(161) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', 's').
-perfil(162) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', '18+', 'n').
+perfil(25, I, G, T) :- procurardoenca('azia', 'regurgitacao', _, I, G, T).
+perfil(26, I, G, T) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
+perfil(27, I, G, T) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
 
-perfil(163) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '0-3', _).
-perfil(164) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '4-10', _).
-perfil(165) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '11-17', _).
-perfil(166) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '18+', _).
-perfil(167) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '18+', 's').
-perfil(168) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, '18+', 'n').
-perfil(169) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '0-3', _).
-perfil(170) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '4-10', _).
-perfil(171) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '11-17', _).
-perfil(172) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', _).
-perfil(173) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', 's').
-perfil(174) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', 'n').
-perfil(175) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '0-3', _).
-perfil(176) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '4-10', _).
-perfil(177) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '11-17', _).
-perfil(178) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', _).
-perfil(179) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', 's').
-perfil(180) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', '18+', 'n').
+perfil(28, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, I, G, T).
+perfil(29, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
+perfil(30, I, G, T) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
 
-perfil(181) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '0-3', _).
-perfil(182) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '4-10', _).
-perfil(183) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '11-17', _).
-perfil(184) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '18+', _).
-perfil(185) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '18+', 's').
-perfil(186) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, '18+', 'n').
-perfil(187) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '0-3', _).
-perfil(188) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '4-10', _).
-perfil(189) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '11-17', _).
-perfil(190) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', _).
-perfil(191) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', 's').
-perfil(192) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', 'n').
-perfil(193) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '0-3', _).
-perfil(194) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '4-10', _).
-perfil(195) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '11-17', _).
-perfil(196) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', _).
-perfil(197) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', 's').
-perfil(198) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', '18+', 'n').
+perfil(31, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, I, G, T).
+perfil(32, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
+perfil(33, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
 
 
 %Questões Teste
