@@ -1,7 +1,8 @@
+
 % ----------------------------------------------------- EXPLICAÇÃO ESQUEMA -----------------------------------------------------
 
 %doenca(nome,[sintomas],[soluçoes(nome,intervalo_idade,dose,descricao,gravida_pode_tomar,tipo_de_farmacologico)],link)
-%tipo_de_farmacológico: i- injetavel, c-comprimido, x-xarope, g-gotas
+%tipo_de_farmacológico: spray = s, comprimido = c, xarope = x, g-gotas
 %gravida_pode_tomar: s- sim, n- não
 %intervalo_idade: 0-3, 4-10, 11-17, 18+    (representam bebés, crianças, adolescentes e adultos)
 
@@ -345,15 +346,14 @@ doenca('refluxo_gastroesofagico',
 
 
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
-procurardoenca(Sintoma1, Sintoma2, Sintoma3, Intervalo_Idade, Gravida, TipoFarmacologico) :-
+procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-
     SintomasUsuario = [Sintoma1, Sintoma2, Sintoma3],
     findall(
         Doenca-TratamentosFiltrados,
         (
             doenca(Doenca, Sintomas, Tratamentos, _),
-            (sintomas_criticos_validos(SintomasUsuario, Sintomas) ; sintomas_validos(Sintomas, Sintoma1, Sintoma2, Sintoma3)),
-            filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TipoFarmacologico, TratamentosFiltrados),
-            TratamentosFiltrados \= []
+            (sintomas_criticos_validos(SintomasUsuario, Sintomas)),
+            filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
         ),
         Resultados
     ),
@@ -375,38 +375,42 @@ sintomas_criticos_validos(SintomasUsuario, [Sintoma1, Sintoma2|_]) :-
     member(Sintoma1, SintomasUsuario),
     member(Sintoma2, SintomasUsuario).
 
-% Validação da presença de sintomas.
-sintomas_validos(Sintomas, Sintoma1, Sintoma2, '_') :-
-    member(Sintoma1, Sintomas),
-    member(Sintoma2, Sintomas).
-
-sintomas_validos(Sintomas, Sintoma1, Sintoma2, Sintoma3) :-
-    Sintoma3 \= '_',
-    member(Sintoma1, Sintomas),
-    member(Sintoma2, Sintomas),
-    member(Sintoma3, Sintomas).
-
 % Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
-filtrar_tratamentos(Tratamentos, Intervalo_Idade, Gravida, TipoFarmacologico, TratamentosFiltrados) :-
+% Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
+filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados) :-
     include(
-        solucao_valida(Intervalo_Idade, Gravida, TipoFarmacologico),
+        farmacologicos(Idade, Gravida, TipoFarmacologico),
         Tratamentos,
-        TratamentosFiltrados
+        TratamentosFiltradosTemp
+    ),
+    include(
+        nao_farmacologicos,
+        Tratamentos,
+        TratamentosNaoFarmacologicos
+    ),
+    (   TratamentosFiltradosTemp = [] % Se não houver tratamentos farmacológicos filtrados
+    ->  TratamentosFiltrados = TratamentosNaoFarmacologicos % Incluir apenas os tratamentos não farmacológicos
+    ;   append(TratamentosFiltradosTemp, TratamentosNaoFarmacologicos, TratamentosFiltrados) % Caso contrário, incluir tratamentos farmacológicos e não farmacológicos
     ).
 
-% Validar soluções farmacológicas conforme restrições de idade, gravidez e tipo.
-solucao_valida(Intervalo_Idade, Gravida, TipoFarmacologico, Solucao) :-
-    Solucao = farmacologico(_, Idade, _, _, Gravida_Pode_Tomar, TipoFarmacologico_Doencas),
-    Intervalo_Idade = Idade,
-    member(TipoFarmacologico, TipoFarmacologico_Doencas),
-    (   Gravida = 's' -> Gravida_Pode_Tomar = 's'
-    ;   Gravida = 'n' -> true
-    ;   true
+% Predicado para validar soluções farmacológicas conforme restrições de idade, gravidez e tipo.
+farmacologicos(Idade, Gravida, TipoFarmacologico, Solucao) :-
+    Solucao = farmacologico(_, IdadeNecessaria, _, _, Gravida_Pode_Tomar, TipoFarmacologico_Doencas),
+    IdadeNecessaria = Idade,
+    TipoFarmacologico_Doencas = TipoFarmacologico,
+    (
+        (Gravida = 's') -> Gravida_Pode_Tomar = 's'
+        ; (Gravida = 'n') -> Gravida_Pode_Tomar = _
+        ; (Gravida = 'n') -> Gravida_Pode_Tomar = _
     ).
 
-% Checa se a solução é um tratamento não farmacológico.
-solucao_valida(_, _, _, Solucao) :-
-    functor(Solucao, naofarmacologico, _).
+
+
+% Predicado para filtrar tratamentos não farmacológicos.
+nao_farmacologicos(Solucao) :-
+    Solucao = naofarmacologico(_, _).
+
+
 
 %Perfis
 perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', _, I, G, T).
@@ -452,50 +456,3 @@ perfil(30, I, G, T) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da
 perfil(31, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, I, G, T).
 perfil(32, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
 perfil(33, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
-
-
-%Questões Teste
-
-% Lista todos os sintomas de uma doença
-listar_sintomas(Doenca, Sintomas):-
-    doenca(Doenca, Sintomas, _, _).
-
-% Retorna todos os tratamentos (farmacológicos e não farmacológicos) para uma determinada doença
-obter_tratamentos_doenca(Doenca, Tratamentos) :-
-    doenca(Doenca, _, ListaTratamentos,_),
-    flatten(ListaTratamentos, Tratamentos).
-
-% Predicado para obter apenas os tratamentos farmacológicos para uma doença
-obter_tratamentos_farmacologicos(Doenca, TratamentosFarmacologicos) :-
-    doenca(Doenca, _, Tratamentos,_),
-    obter_tratamentos_farmacologicos_aux(Tratamentos, TratamentosFarmacologicos).
-
-% Predicado auxiliar para filtrar os tratamentos farmacológicos da lista de tratamentos
-obter_tratamentos_farmacologicos_aux([], []).
-obter_tratamentos_farmacologicos_aux([farmacologico(Nome, CondicaoIdade, Quantidade, Descricao, Gravida, Forma) | Resto], [farmacologico(Nome, CondicaoIdade, Quantidade, Descricao, Gravida, Forma) | TF]) :-
-    obter_tratamentos_farmacologicos_aux(Resto, TF).
-obter_tratamentos_farmacologicos_aux([_ | Resto], TF) :-
-    obter_tratamentos_farmacologicos_aux(Resto, TF).
-
-% Predicado para obter apenas os tratamentos não farmacológicos e indicações para uma doença
-obter_tratamentos_nao_farmacologicos(Doenca, TratamentosNaoFarmacologicos) :-
-    doenca(Doenca, _, Tratamentos,_),
-    obter_tratamentos_nao_farmacologicos_aux(Tratamentos, TratamentosNaoFarmacologicos).
-
-% Predicado auxiliar para filtrar os tratamentos não farmacológicos da lista de tratamentos
-obter_tratamentos_nao_farmacologicos_aux([], []).
-obter_tratamentos_nao_farmacologicos_aux([naofarmacologico(Nome, Descricao) | Resto], [naofarmacologico(Nome, Descricao) | TNF]) :-
-    obter_tratamentos_nao_farmacologicos_aux(Resto, TNF).
-obter_tratamentos_nao_farmacologicos_aux([_ | Resto], TNF) :-
-    obter_tratamentos_nao_farmacologicos_aux(Resto, TNF).
-
-% Verifica se um tratamento farmacológico é recomendado para pessoas com mais de 18 anos
-recomendado_para_mais_de_18_anos(Tratamento) :-
-    doenca(_, _, Tratamentos, _),
-    member(farmacologico(Tratamento, CondicaoIdade, _, _, _, _), Tratamentos),
-    \+ age_restriction(CondicaoIdade).
-
-% Verifica se há restrição de idade para mais de 18 anos
-age_restriction('0-3').
-age_restriction('4-10').
-age_restriction('11-17').
