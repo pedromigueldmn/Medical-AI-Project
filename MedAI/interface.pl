@@ -1,6 +1,8 @@
 :-dynamic(fact/1),
 [forward, basedados, proof, basedeconhecimento].
-
+:- dynamic perfil/4,(idade/1). % Declaração explícita da variável idade
+:- dynamic(gravida/1). % Declaração explícita da variável gravida
+:- dynamic(farma/1). % Declaração explícita da variável farma
 
 menu:- nl,
       write('********************************************************************************************************'), nl,
@@ -33,10 +35,10 @@ questao1:- write('**************************************************************
            write('**  3 - Entre 11-17 anos (adolescente)'), nl,
            write('**  4 - Maior de 18 anos (adulto)'), nl, nl,
            read(A1),
-           (   (A1 == 1), (Idade='0-3'), (Gravida='_'), questao4;
-               (A1 == 2), (Idade='4-10'), (Gravida='_'), questao4;
-               (A1 == 3), (Idade='11-17'),questao2;
-               (A1 == 4), (Idade='18+'),questao2).
+           (   (A1 == 1), (Idade='0-3'),assert(idade(Idade)), (Gravida='_'), assert(gravida(Gravida)), questao4;
+               (A1 == 2), (Idade='0-4'),assert(idade(Idade)), (Gravida='_'), assert(gravida(Gravida)), questao4;
+               (A1 == 3), (Idade='11-17'),assert(idade(Idade)),questao2;
+               (A1 == 4), (Idade='18+'),assert(idade(Idade)),questao2).
 
 questao2:- write('********************************************************************************************************'), nl,
            write('**  Qual o seu gênero?'), nl,
@@ -51,8 +53,8 @@ questao3:- write('**************************************************************
            write('**  1 - Sim'), nl,
            write('**  2 - Não'), nl, nl,
            read(A3),
-           (   (A3 == 1), (Gravida='s'), questao4;
-               (A3 == 2), (Gravida=_), questao4).
+           (   (A3 == 1), (Gravida='s'),assert(gravida(Gravida)), questao4;
+               (A3 == 2), (Gravida='_'),assert(gravida(Gravida)), questao4).
 
 questao4:- write('********************************************************************************************************'), nl,
             write('**  Tem preferência por algum tipo de farmacológico?'), nl,
@@ -60,7 +62,7 @@ questao4:- write('**************************************************************
             write('**  2 - Não'), nl, nl,
             read(A4),
             (   (A4 == 1), questao5;
-                (A4 == 2),(Farma=_),questao6).
+                (A4 == 2), (Farma='_'),assert(farma(Farma)),questao6).
 
 questao5:- write('********************************************************************************************************'), nl,
             write('**  Qual o tipo de framacológico que prefere?'), nl,
@@ -69,10 +71,10 @@ questao5:- write('**************************************************************
             write('**  3 - Comprimido'), nl,
             write('**  4 - Spray'), nl, nl,
             read(A5),
-            (   (A5 == 1), (Farma= 'x'), questao6;
-                (A5 == 2), (Farma= 'g'), questao6;
-                (A5 == 1), (Farma= 'c'), questao6;
-                (A5 == 2), (Farma= 's'), questao6).
+            (   (A5 == 1), (Farma='x'),assert(farma(Farma)), questao6;
+                (A5 == 2), (Farma='g'),assert(farma(Farma)), questao6;
+                (A5 == 1), (Farma='c'),assert(farma(Farma)), questao6;
+                (A5 == 2), (Farma='s'),assert(farma(Farma)), questao6).
 
 
 questao6:- write('********************************************************************************************************'), nl,
@@ -242,5 +244,5 @@ resultado:- write('*************************************************************
 resultadowrite(P):- 
             write('     TRATAMENTO ACONSELHADO: '),perfil(P,Idade,Gravida,Farma),nl,nl,
             write('********************************************************************************************************'),
-            retractall(fact(_)).
+            retractall(idade(Idade)),retractall(gravida(Gravida)),retractall(farma(Farma)),retractall(fact(_)).
 
