@@ -1,6 +1,13 @@
+
+:- dynamic(idade/1). % Declaração explícita da variável idade
+:- dynamic(gravida/1). % Declaração explícita da variável gravida
+:- dynamic(farma/1). % Declaração explícita da variável farma
+
 :-dynamic(fact/1),
 [forward, basedados, proof, basedeconhecimento].
-:- dynamic perfil/4,(idade/1). % Declaração explícita da variável idade
+
+
+:- dynamic(idade/1). % Declaração explícita da variável idade
 :- dynamic(gravida/1). % Declaração explícita da variável gravida
 :- dynamic(farma/1). % Declaração explícita da variável farma
 
@@ -35,8 +42,8 @@ questao1:- write('**************************************************************
            write('**  3 - Entre 11-17 anos (adolescente)'), nl,
            write('**  4 - Maior de 18 anos (adulto)'), nl, nl,
            read(A1),
-           (   (A1 == 1), (Idade='0-3'),assert(idade(Idade)), (Gravida=_), assert(gravida(Gravida)), questao4;
-               (A1 == 2), (Idade='0-4'),assert(idade(Idade)), (Gravida=_), assert(gravida(Gravida)), questao4;
+           (   (A1 == 1), (Idade='0-3'),assert(idade(Idade)), (Gravida='n'), assert(gravida(Gravida)), questao4;
+               (A1 == 2), (Idade='0-4'),assert(idade(Idade)), (Gravida='n'), assert(gravida(Gravida)), questao4;
                (A1 == 3), (Idade='11-17'),assert(idade(Idade)),questao2;
                (A1 == 4), (Idade='18+'),assert(idade(Idade)),questao2).
 
@@ -54,7 +61,7 @@ questao3:- write('**************************************************************
            write('**  2 - Não'), nl, nl,
            read(A3),
            (   (A3 == 1), (Gravida='s'),assert(gravida(Gravida)), questao4;
-               (A3 == 2), (Gravida=_),assert(gravida(Gravida)), questao4).
+               (A3 == 2), (Gravida='n'),assert(gravida(Gravida)), questao4).
 
 questao4:- write('********************************************************************************************************'), nl,
             write('**  Tem preferência por algum tipo de farmacológico?'), nl,
@@ -107,7 +114,7 @@ questao6:- write('**************************************************************
         (A6 == 23), assert(fact(coceira_garganta)), questao7;
         (A6 == 24), assert(fact(azia)), questao7;
         (A6 == 25), assert(fact(regurgitacao)), questao7;
-        (A6 == 26), assert(fact(dor_lombar)), questao7;
+        (A6 == 26), assert(fact(dor_na_regiao_lombar)), questao7;
         (A6 == 27), assert(fact(dormencia_gluteos_pernas)), questao7;
         (A6 == 28), assert(fact(dificuldade_em_adormecer)), questao7;
         (A6 == 29), assert(fact(acordar_cedo_demais)), questao7;
