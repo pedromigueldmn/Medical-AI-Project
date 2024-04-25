@@ -410,5 +410,50 @@ farmacologicos(Idade, Gravida, TipoFarmacologico, Solucao) :-
 nao_farmacologicos(Solucao) :-
     Solucao = naofarmacologico(_, _).
 
+%Perfis
+perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', _, I, G, T).
+perfil(2, I, G, T) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', I, G, T).
+perfil(3, I, G, T) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', I, G, T).
+
+perfil(4, I, G, T) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, I, G, T).
+perfil(5, I, G, T) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', I, G, T).
+perfil(6, I, G, T) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', I, G, T).
+
+perfil(7, I, G, T) :- procurardoenca('aperto_peito', 'tonturas', _, I, G, T).
+perfil(8, I, G, T) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', I, G, T).
+perfil(9, I, G, T) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', I, G, T).
+
+perfil(10, I, G, T) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, I, G, T).
+perfil(11, I, G, T) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
+perfil(12, I, G, T) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
+
+perfil(13, I, G, T) :- procurardoenca('dor_de_cabeca', 'febre', _, I, G, T).
+perfil(14, I, G, T) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', I, G, T).
+perfil(15, I, G, T) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', I, G, T).
+
+perfil(16, I, G, T) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, I, G, T).
+perfil(17, I, G, T) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', I, G, T).
+perfil(18, I, G, T) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', I, G, T).
+
+perfil(19, I, G, T) :- procurardoenca('nariz_entupido', 'espirros', _, I, G, T).
+perfil(20, I, G, T) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', I, G, T).
+perfil(21, I, G, T) :- procurardoenca('espirros', 'febre', 'dor_abdominal', I, G, T).
+
+perfil(22, I, G, T) :- procurardoenca('coceira_garganta', 'espirros', _, I, G, T).
+perfil(23, I, G, T) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
+perfil(24, I, G, T) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
+
+perfil(25, I, G, T) :- procurardoenca('azia', 'regurgitacao', _, I, G, T).
+perfil(26, I, G, T) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
+perfil(27, I, G, T) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
+
+perfil(28, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, I, G, T).
+perfil(29, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
+perfil(30, I, G, T) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
+
+perfil(31, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, I, G, T).
+perfil(32, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
+perfil(33, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
+
 
 
