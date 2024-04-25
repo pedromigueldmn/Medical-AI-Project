@@ -4,6 +4,7 @@
 
 
 
+
 menu:- nl,
       write('********************************************************************************************************'), nl,
       write('Bem-vindo(a) ao seu questionário de diagnóstico! Antes de começarmos, qual é o seu nome?'), nl,
@@ -35,10 +36,10 @@ questao1:- write('**************************************************************
            write('**  3 - Entre 11-17 anos (adolescente)'), nl,
            write('**  4 - Maior de 18 anos (adulto)'), nl, nl,
            read(A1),
-           (   (A1 == 1), (Idade='0-3'),assert(idade(Idade)), (Gravida='n'), assert(gravida(Gravida)), questao4;
-               (A1 == 2), (Idade='0-4'),assert(idade(Idade)), (Gravida='n'), assert(gravida(Gravida)), questao4;
-               (A1 == 3), (Idade='11-17'),assert(idade(Idade)),questao2;
-               (A1 == 4), (Idade='18+'),assert(idade(Idade)),questao2).
+           (   (A1 == 1), assert(idade('0-3')), assert(gravida('n')), questao4;
+               (A1 == 2), assert(idade('4-10')),assert(gravida('n')), questao4;
+               (A1 == 3), assert(idade('11-17')),questao2;
+               (A1 == 4), assert(idade('18+')),questao2).
 
 questao2:- write('********************************************************************************************************'), nl,
            write('**  Qual o seu gênero?'), nl,
@@ -53,8 +54,8 @@ questao3:- write('**************************************************************
            write('**  1 - Sim'), nl,
            write('**  2 - Não'), nl, nl,
            read(A3),
-           (   (A3 == 1), (Gravida='s'),assert(gravida(Gravida)), questao4;
-               (A3 == 2), questao4).
+           (   (A3 == 1), assert(gravida('s')), questao4;
+               (A3 == 2), assert(gravida('n')),questao4).
 
 questao4:- write('********************************************************************************************************'), nl,
             write('**  Tem preferência por algum tipo de farmacológico?'), nl,
@@ -62,7 +63,7 @@ questao4:- write('**************************************************************
             write('**  2 - Não'), nl, nl,
             read(A4),
             (   (A4 == 1), questao5;
-                (A4 == 2), (Farma=_),assert(farma(Farma)),questao6).
+                (A4 == 2), assert(farma(_)),questao6).
 
 questao5:- write('********************************************************************************************************'), nl,
             write('**  Qual o tipo de framacológico que prefere?'), nl,
@@ -71,10 +72,10 @@ questao5:- write('**************************************************************
             write('**  3 - Comprimido'), nl,
             write('**  4 - Spray'), nl, nl,
             read(A5),
-            (   (A5 == 1), (Farma='x'),assert(farma(Farma)), questao6;
-                (A5 == 2), (Farma='g'),assert(farma(Farma)), questao6;
-                (A5 == 3), (Farma='c'),assert(farma(Farma)), questao6;
-                (A5 == 4), (Farma='s'),assert(farma(Farma)), questao6).
+            (   (A5 == 1), assert(farma('x')), questao6;
+                (A5 == 2), assert(farma('g')), questao6;
+                (A5 == 3), assert(farma('c')), questao6;
+                (A5 == 4), assert(farma('sp')), questao6).
 
 
 questao6:- write('********************************************************************************************************'), nl,
@@ -242,10 +243,10 @@ resultado:- write('*************************************************************
 
 
 resultadowrite(P):- 
-            write(Idade),nl,
-            write(Gravida),nl,
-            write(Farma),nl,
-            write('     TRATAMENTO ACONSELHADO: '),perfil(P,Idade,Gravida,Farma),nl,nl,
+            idade(I),nl,
+            gravida(G),nl,
+            farma(T),nl,
+            write('     TRATAMENTO ACONSELHADO: '),perfil(P,I,G,T),nl,nl,
             write('********************************************************************************************************'),
-            retractall(idade(Idade)),retractall(gravida(Gravida)),retractall(farma(Farma)),retractall(fact(_)).
+            retractall(idade(I)),retractall(gravida(G)),retractall(farma(T)),retractall(fact(_)).
 

@@ -18,7 +18,7 @@ doenca('faringite',
     % Tratamentos para 4-10 anos
         farmacologico('ibuprofeno', '4-10', '100mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
         farmacologico('paracetamol', '4-10', '250mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
-        farmacologico('benzidamina', '4+', 'spray', 'Aplicar diretamente na garganta conforme a necessidade, pode ser usado por todas as idades acima de 4 anos para aliviar a dor de garganta.', 's', 's'),
+        farmacologico('benzidamina', '4-10', 'spray', 'Aplicar diretamente na garganta conforme a necessidade, pode ser usado por todas as idades acima de 4 anos para aliviar a dor de garganta.', 's', 's'),
 
     % Tratamentos para 11-17 anos
         farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
