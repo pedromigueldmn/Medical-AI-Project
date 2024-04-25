@@ -115,7 +115,8 @@ questao6:- write('**************************************************************
         (A6 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao7;
         (A6 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao7;
         (A6 == 32), assert(fact(diminuicao_da_flexibilidade)), questao7;
-        (A6 == 33), assert(fact(sensacao_de_fadiga)), questao7).
+        (A6 == 33), assert(fact(sensacao_de_fadiga)), questao7;
+        (A6 == 34), assert(fact(dor_abdominal)), questao7).
 
 
         questao7:- write('********************************************************************************************************'), nl,
@@ -155,7 +156,8 @@ questao6:- write('**************************************************************
         (A7 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), questao8;
         (A7 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao8;
         (A7 == 32), assert(fact(diminuicao_da_flexibilidade)), questao8;
-        (A7 == 33), assert(fact(sensacao_de_fadiga)), questao8).
+        (A7 == 33), assert(fact(sensacao_de_fadiga)), questao8;
+        (A7 == 34), assert(fact(dor_abdominal)), questao8).
 
 questao8:- write('********************************************************************************************************'), nl,
     write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
@@ -194,7 +196,8 @@ questao8:- write('**************************************************************
     (A8 == 30), assert(fact(acordar_frequentemente_durante_a_noite)), resultado;
     (A8 == 31), assert(fact(sensacao_de_sono_nao_reparador)), resultado;
     (A8 == 32), assert(fact(diminuicao_da_flexibilidade)), resultado;
-    (A8 == 33), assert(fact(sensacao_de_fadiga)), resultado).
+    (A8 == 33), assert(fact(sensacao_de_fadiga)), resultado;
+    (A8 == 34), assert(fact(dor_abdominal)), resultado).
 
 
 write_sintomas:- 
@@ -231,7 +234,8 @@ write_sintomas:-
                 write('**  30 - Acordar muitas vezes ao longo da noite'), nl,
                 write('**  31 - Sensação de sono não reparador'), nl,
                 write('**  32 - Diminuição da flexibilidade'), nl,
-                write('**  33 - Sensação de fadiga'), nl,nl,
+                write('**  33 - Sensação de fadiga'), nl,
+                write('**  34 - Dor abdominal'), nl,nl,
     true.
 
 resultado:- write('********************************************************************************************************'), nl,
