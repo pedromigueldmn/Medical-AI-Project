@@ -1,15 +1,8 @@
-
-:- dynamic(idade/1). % Declaração explícita da variável idade
-:- dynamic(gravida/1). % Declaração explícita da variável gravida
-:- dynamic(farma/1). % Declaração explícita da variável farma
-
 :-dynamic(fact/1),
+
 [forward, basedados, proof, basedeconhecimento].
 
 
-:- dynamic(idade/1). % Declaração explícita da variável idade
-:- dynamic(gravida/1). % Declaração explícita da variável gravida
-:- dynamic(farma/1). % Declaração explícita da variável farma
 
 menu:- nl,
       write('********************************************************************************************************'), nl,
@@ -61,7 +54,7 @@ questao3:- write('**************************************************************
            write('**  2 - Não'), nl, nl,
            read(A3),
            (   (A3 == 1), (Gravida='s'),assert(gravida(Gravida)), questao4;
-               (A3 == 2), (Gravida='n'),assert(gravida(Gravida)), questao4).
+               (A3 == 2), questao4).
 
 questao4:- write('********************************************************************************************************'), nl,
             write('**  Tem preferência por algum tipo de farmacológico?'), nl,
