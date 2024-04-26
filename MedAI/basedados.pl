@@ -344,6 +344,113 @@ doenca('refluxo_gastroesofagico',
     ],
     'https://www.cuf.pt/saude-a-z/refluxo-gastroesofagico').
 
+doenca('amigdalite',
+    ['inchaco_na_garganta', 'garganta_vermelha','dificuldade_em_engolir','dor_de_garganta'],
+    [
+        % Tratamentos para 0-3 anos
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 5 mL de xarope a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'x'),
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 1.2 mL de gotas a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
+
+        % Tratamentos para 4-10 anos
+        farmacologico('ibuprofeno', '4-10', '100mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
+        farmacologico('paracetamol', '4-10', '250mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
+        farmacologico('amoxicilina', '4-10', '125mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à amigdalite.', 'n', 'c'),
+
+        % Tratamentos para 11-17 anos
+        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
+        farmacologico('paracetamol', '11-17', '500mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
+        farmacologico('amoxicilina', '11-17', '250mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à amigdalite.', 'n', 'c'),
+
+        % Tratamentos para 18+ anos
+        farmacologico('ibuprofeno', '18+', '400-600mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
+        farmacologico('paracetamol', '18+', '1000mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
+        farmacologico('amoxicilina', '18+', '500mg', 'Tomar a cada 8 horas ajuda a tratar a infecção bacteriana associada à amigdalite.', 'n', 'c'),
+
+        % Tratamentos não farmacológicos (gerais)
+        naofarmacologico('gargarejo_com_agua_sal', 'Gargarejar com uma solução de água morna e sal várias vezes ao dia pode ajudar a aliviar a dor de garganta.'),
+        naofarmacologico('repouso', 'Manter um bom repouso ajuda o corpo a combater a infecção.'),
+        naofarmacologico('ingestao_de_liquidos', 'Beber líquidos em abundância ajuda a manter a garganta hidratada e alivia a dor.'),
+        naofarmacologico('umidificador', 'Manter o ar úmido pode ajudar a aliviar a dor de garganta em ambientes secos.')
+    ],
+    'https://www.mayoclinic.org/diseases-conditions/tonsillitis/symptoms-causes/syc-20378479').
+
+doenca('infecção_urinária',
+    ['ardor_ao_urinar', 'urgência_urinária', 'dor_abdominal', 'urina_turva'],
+    [
+        % Tratamentos para 0-3 anos
+        farmacologico('amoxicilina', '0-3', '100mg', 'Tomar a cada 12 horas ajuda a tratar a infecção urinária em bebês e crianças pequenas.', 'n', 'c'),
+
+        % Tratamentos para 4-10 anos
+        farmacologico('amoxicilina', '4-10', '250mg', 'Tomar a cada 12 horas ajuda a tratar a infecção urinária em crianças.', 'n', 'c'),
+        farmacologico('cefalexina', '4-10', '250mg', 'Tomar a cada 6 horas pode ser necessário em casos de infecção mais grave.', 'n', 'c'),
+
+        % Tratamentos para 11-17 anos
+        farmacologico('ciprofloxacino', '11-17', '500mg', 'Tomar a cada 12 horas é uma opção para infecções urinárias em adolescentes.', 'n', 'c'),
+        farmacologico('nitrofurantoína', '11-17', '100mg', 'Tomar a cada 6 horas pode ser necessário em casos de infecção mais grave.', 'n', 'c'),
+
+        % Tratamentos para 18+ anos
+        farmacologico('ciprofloxacino', '18+', '500mg', 'Tomar a cada 12 horas é uma opção comum para infecções urinárias em adultos.', 'n', 'c'),
+        farmacologico('nitrofurantoína', '18+', '100mg', 'Tomar a cada 6 horas pode ser necessário em casos de infecção mais grave.', 'n', 'c'),
+
+        % Tratamentos não farmacológicos (gerais)
+        naofarmacologico('aumentar_ingestao_de_agua', 'Beber muita água ajuda a diluir a urina e a eliminar bactérias.'),
+        naofarmacologico('evitar_alimentos_irritantes', 'Evitar alimentos e bebidas irritantes, como cafeína, álcool e alimentos condimentados, pode ajudar a reduzir a irritação da bexiga.'),
+        naofarmacologico('urinar_após_relacoes_sexuais', 'Urinar logo após a relação sexual ajuda a limpar as bactérias da uretra, reduzindo o risco de infecção urinária.')
+    ],
+    'https://www.mayoclinic.org/diseases-conditions/urinary-tract-infection/symptoms-causes/syc-20353447').
+
+doenca('otite',
+    ['dor_de_ouvido', 'febre', 'perda_auditiva_temporaria', 'dor_ao_mastigar'],
+    [
+        % Tratamentos para 0-3 anos
+        farmacologico('amoxicilina', '0-3', '125mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à otite em bebês e crianças pequenas.', 'n', 'c'),
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 5 mL de xarope a cada 4-6 horas pode ajudar a aliviar a dor e a febre.', 's', 'x'),
+
+        % Tratamentos para 4-10 anos
+        farmacologico('amoxicilina', '4-10', '250mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à otite em crianças.', 'n', 'c'),
+        farmacologico('paracetamol', '4-10', '250mg', 'Tomar a cada 4-6 horas pode ajudar a aliviar a dor e a febre.', 's', 'c'),
+
+        % Tratamentos para 11-17 anos
+        farmacologico('amoxicilina', '11-17', '500mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à otite em adolescentes.', 'n', 'c'),
+        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas pode ajudar a aliviar a dor e a febre.', 'n', 'c'),
+
+        % Tratamentos para 18+ anos
+        farmacologico('amoxicilina', '18+', '500mg', 'Tomar a cada 8 horas ajuda a tratar a infecção bacteriana associada à otite em adultos.', 'n', 'c'),
+        farmacologico('ibuprofeno', '18+', '400-600mg', 'Tomar a cada 6-8 horas pode ajudar a aliviar a dor e a febre.', 'n', 'c'),
+
+        % Tratamentos não farmacológicos (gerais)
+        naofarmacologico('compressa_quente', 'Aplicar uma compressa quente sobre a orelha afetada pode aliviar a dor.'),
+        naofarmacologico('repouso', 'Descansar pode ajudar o corpo a se recuperar mais rapidamente.'),
+        naofarmacologico('evitar_insercao_de_objetos_na_orelha', 'Evitar inserir objetos na orelha pode prevenir lesões adicionais e infecções.')
+    ],
+    'https://www.mayoclinic.org/diseases-conditions/ear-infections/symptoms-causes/syc-20351616').
+
+doenca('pneumonia',
+    ['tosse', 'febre', 'dificuldade_respiratoria', 'dor_no_peito'],
+    [
+        % Tratamentos para 0-3 anos
+        farmacologico('amoxicilina', '0-3', '125mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à pneumonia em bebês e crianças pequenas.', 'n', 'c'),
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 5 mL de xarope a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'x'),
+
+        % Tratamentos para 4-10 anos
+        farmacologico('amoxicilina', '4-10', '250mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à pneumonia em crianças.', 'n', 'c'),
+        farmacologico('paracetamol', '4-10', '250mg', 'Tomar a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
+
+        % Tratamentos para 11-17 anos
+        farmacologico('azitromicina', '11-17', '500mg', 'Tomar uma vez ao dia durante 3 dias pode ajudar a tratar a pneumonia em adolescentes.', 'n', 'c'),
+        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas pode ajudar a reduzir a febre e o desconforto.', 'n', 'c'),
+
+        % Tratamentos para 18+ anos
+        farmacologico('azitromicina', '18+', '500mg', 'Tomar uma vez ao dia durante 5 dias ou conforme prescrito pelo médico ajuda a tratar a pneumonia em adultos.', 'n', 'c'),
+        farmacologico('paracetamol', '18+', '1000mg', 'Tomar a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
+
+        % Tratamentos não farmacológicos (gerais)
+        naofarmacologico('repouso', 'Descansar ajuda o corpo a se recuperar mais rapidamente.'),
+        naofarmacologico('hidratacao', 'Beber líquidos em abundância ajuda a manter o corpo hidratado e a diluir o muco.'),
+        naofarmacologico('evitar_fumo', 'Evitar o fumo e a exposição ao fumo passivo ajuda a proteger os pulmões e facilita a recuperação.')
+    ],
+    'https://www.mayoclinic.org/diseases-conditions/pneumonia/symptoms-causes/syc-20354204').
+
 
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-
