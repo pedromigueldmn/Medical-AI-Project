@@ -348,8 +348,8 @@ doenca('amigdalite',
     ['inchaco_na_garganta', 'garganta_vermelha','dificuldade_em_engolir','dor_de_garganta'],
     [
         % Tratamentos para 0-3 anos
-        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 5 mL de xarope a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'x'),
-        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 1.2 mL de gotas a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'c'),
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', 'x'),
+        farmacologico('paracetamol', '0-3', '120mg', 'Tomar a cada 4-6 horas pode aliviar a dor de garganta e a febre.', 's', ''),
 
         % Tratamentos para 4-10 anos
         farmacologico('ibuprofeno', '4-10', '100mg', 'Tomar a cada 6-8 horas ajuda a reduzir a dor e a inflamação na garganta.', 'n', 'c'),
@@ -374,8 +374,8 @@ doenca('amigdalite',
     ],
     'https://www.mayoclinic.org/diseases-conditions/tonsillitis/symptoms-causes/syc-20378479').
 
-doenca('infecção_urinária',
-    ['ardor_ao_urinar', 'urgência_urinária', 'dor_abdominal', 'urina_turva'],
+doenca('infecao_urinária',
+    ['ardor_ao_urinar', 'urgencia_urinaria', 'dor_abdominal', 'urina_turva'],
     [
         % Tratamentos para 0-3 anos
         farmacologico('amoxicilina', '0-3', '100mg', 'Tomar a cada 12 horas ajuda a tratar a infecção urinária em bebês e crianças pequenas.', 'n', 'c'),
@@ -426,7 +426,7 @@ doenca('otite',
     'https://www.mayoclinic.org/diseases-conditions/ear-infections/symptoms-causes/syc-20351616').
 
 doenca('pneumonia',
-    ['tosse', 'febre', 'dificuldade_respiratoria', 'dor_no_peito'],
+    ['tosse', 'febre', 'dificuldade_respiratoria', 'aperto_peito'],
     [
         % Tratamentos para 0-3 anos
         farmacologico('amoxicilina', '0-3', '125mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à pneumonia em bebês e crianças pequenas.', 'n', 'c'),
@@ -438,7 +438,7 @@ doenca('pneumonia',
 
         % Tratamentos para 11-17 anos
         farmacologico('azitromicina', '11-17', '500mg', 'Tomar uma vez ao dia durante 3 dias pode ajudar a tratar a pneumonia em adolescentes.', 'n', 'c'),
-        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas pode ajudar a reduzir a febre e o desconforto.', 'n', 'c'),
+        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
 
         % Tratamentos para 18+ anos
         farmacologico('azitromicina', '18+', '500mg', 'Tomar uma vez ao dia durante 5 dias ou conforme prescrito pelo médico ajuda a tratar a pneumonia em adultos.', 'n', 'c'),
@@ -562,5 +562,20 @@ perfil(31, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequ
 perfil(32, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
 perfil(33, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
 
+perfil(34, I, G, T) :- procurardoenca('inchaco_na_garganta', 'garganta_vermelha', _, I, G, T).
+perfil(35, I, G, T) :- procurardoenca('inchaco_na_garganta', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
+perfil(36, I, G, T) :- procurardoenca('garganta_vermelha', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
+
+perfil(37, I, G, T) :- procurardoenca('ardor_ao_urinar', 'urgencia_urinaria', _, I, G, T).
+perfil(38, I, G, T) :- procurardoenca('ardor_ao_urinar', 'dor_abdominal', 'urina_turva', I, G, T).
+perfil(39, I, G, T) :- procurardoenca('urgencia_urinaria', 'dor_abdominal', 'urina_turva', I, G, T).
+
+perfil(40, I, G, T) :- procurardoenca('dor_de_ouvido', 'febre', _, I, G, T).
+perfil(41, I, G, T) :- procurardoenca('dor_de_ouvido', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
+perfil(42, I, G, T) :- procurardoenca('febre', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
+
+perfil(43, I, G, T) :- procurardoenca('tosse', 'febre', _, I, G, T).
+perfil(44, I, G, T) :- procurardoenca('tosse', 'dificuldade_respiratoria', 'aperto_peito', I, G, T).
+perfil(45, I, G, T) :- procurardoenca('febre', 'dificuldade_respiratoria', 'aperto_peito', I, G, T).
 
 
