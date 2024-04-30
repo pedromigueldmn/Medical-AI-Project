@@ -344,7 +344,7 @@ doenca('refluxo_gastroesofagico',
     ],
     'https://www.cuf.pt/saude-a-z/refluxo-gastroesofagico').
 
-doenca('amigdalite',
+/*doenca('amigdalite',
     ['inchaco_na_garganta', 'garganta_vermelha','dificuldade_em_engolir','dor_de_garganta'],
     [
         % Tratamentos para 0-3 anos
@@ -450,7 +450,7 @@ doenca('pneumonia',
         naofarmacologico('evitar_fumo', 'Evitar o fumo e a exposição ao fumo passivo ajuda a proteger os pulmões e facilita a recuperação.')
     ],
     'https://www.mayoclinic.org/diseases-conditions/pneumonia/symptoms-causes/syc-20354204').
-
+*/
 
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-

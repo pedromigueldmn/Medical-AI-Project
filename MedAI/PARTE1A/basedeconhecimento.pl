@@ -54,7 +54,7 @@ if 'dificuldade_em_adormecer' and 'acordar_frequentemente_durante_a_noite' then 
 if 'dificuldade_em_adormecer' and 'acordar_cedo_demais' and 'sensacao_de_sono_nao_reparador' then 32.
 if 'acordar_frequentemente_durante_a_noite' and 'acordar_cedo_demais' and 'sensacao_de_sono_nao_reparador' then 33.
 
-%amigdalite
+/*%amigdalite
 if 'inchaco_na_garganta' and 'garganta_vermelha' then 34.
 if 'inchaco_na_garganta' and 'dificuldade_em_engolir' and 'dor_de_garganta' then 35.
 if 'garganta_vermelha' and 'dificuldade_em_engolir' and 'dor_de_garganta' then 36.
@@ -73,6 +73,7 @@ if 'febre' and 'perda_auditiva_temporaria' and 'dor_ao_mastigar' then 42.
 if 'tosse' and 'febre' then 43.
 if 'tosse' and 'dificuldade_respiratoria' and 'dor_no_peito' then 44.
 if 'febre' and 'dificuldade_respiratoria' and 'dor_no_peito' then 45.
+*/ 
 
 % c:comprimido x:xarope spray:s 
 % intervalo_idade: 0-3(bebe)  4-10(crianca)  11-17(adolescente)  18+(adulto)
