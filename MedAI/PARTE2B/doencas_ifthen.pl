@@ -1,18 +1,17 @@
 :- dynamic (<==)/2.
 
-doenca_infeciosa<==[
-    [idade > 66.5],
-    [idade <= 66.5, febre=nao, idade <= 53, genero=feminino, idade > 8.5],
-    [idade <= 66.5, febre=sim, idade > 35.5],
-    [idade <= 66.5, febre=sim, idade <= 35.5, faixa_etaria=adulto],
-    [idade <= 66.5, febre=sim, idade <= 35.5, faixa_etaria=adulto_jovem],
-    [idade <= 66.5, febre=sim, idade <= 35.5, faixa_etaria=crianca]
+doenca_nao_infeciosa <== [
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adolescente],
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=crianca],
+    [alteracoes_pele=nao, hereditaria=sim, febre=nao],
+    [alteracoes_pele=sim, febre=nao]
 ].
 
-doenca_nao_infeciosa <== [
-    [idade <= 66.5, febre=nao, idade > 53],
-    [idade <= 66.5, febre=nao, idade <= 53, genero=feminino, idade <= 8.5],
-    [idade <= 66.5, febre=nao, idade <= 53, genero=masculino],
-    [idade <= 66.5, febre=nao, idade <= 53, genero=nao_binario],
-    [idade <= 66.5, febre=sim, idade <= 35.5, faixa_etaria=adolescente]
+doenca_infeciosa <== [
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto, alteracoes_humor_comportamento=nao],
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto_jovem],
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=idoso],
+    [alteracoes_pele=nao, hereditaria=nao, faixa_etaria=meia_idade],
+    [alteracoes_pele=nao, hereditaria=sim, febre=sim],
+    [alteracoes_pele=sim, febre=sim]
 ].
