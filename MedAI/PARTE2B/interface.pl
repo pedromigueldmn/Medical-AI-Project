@@ -48,13 +48,11 @@ menu :-
                     5- 30 a 59
                     6- 60 a 74
                     7- Mais de 75
-                    0- Sair 
 
     ___________________________________________________________________________________________________"), nl, nl,
     read(Idade),
-    ((Idade == 0), halt;
-     (Idade == 1), assert(fact(faixa_etaria=bebe));
-     (Idade == 2), assert(fact(ifaixa_etaria=crianca));
+     ((Idade == 1), assert(fact(faixa_etaria=bebe));
+     (Idade == 2), assert(fact(faixa_etaria=crianca));
      (Idade == 3), assert(fact(faixa_etaria=adolescente));
      (Idade == 4), assert(fact(faixa_etaria=adulto_jovem));
      (Idade == 5), assert(fact(faixa_etaria=adulto));
@@ -68,43 +66,11 @@ menu :-
 
                     1- Sim
                     2- Não
-                    0- Sair
 
     ____________________________________________________________________________________________________"), nl, nl,
     read(Sintoma1),
-    ((Sintoma1 == 0), halt;
-     (Sintoma1 == 1), assert(fact(febre=sim));
+    ((Sintoma1 == 1), assert(fact(febre=sim));
      (Sintoma1 == 2), assert(fact(febre=nao))), nl,
-
-    write(
-    "____________________________________________________________________________________________________
- 
-                    Tem dor de garganta?
-
-                    1- Sim
-                    2- Não
-                    0- Sair
-
-    ____________________________________________________________________________________________________"), nl, nl,
-    read(Sintoma2),
-    ((Sintoma2 == 0), halt;
-     (Sintoma2 == 1), assert(fact(dor_de_garganta=sim));
-     (Sintoma2 == 2), assert(fact(dor_de_garganta=nao))), nl,
-
-    write(
-    "____________________________________________________________________________________________________
- 
-                    Tem dor de cabeça?
-
-                    1- Sim
-                    2- Não
-                    0- Sair
-
-    ____________________________________________________________________________________________________"), nl, nl,
-    read(Sintoma3),
-    ((Sintoma3 == 0), halt;
-     (Sintoma3 == 1), assert(fact(dor_de_cabeca=sim));
-     (Sintoma3 == 2), assert(fact(dor_de_cabeca=nao))), nl,
 
     write(
     "____________________________________________________________________________________________________
@@ -113,33 +79,43 @@ menu :-
 
                     1- Sim
                     2- Não
-                    0- Sair
 
     ____________________________________________________________________________________________________"), nl, nl,
-    read(Sintoma4),
-    ((Sintoma4 == 0), halt;
-     (Sintoma4 == 1), assert(fact(alteracoes_pele=sim));
-     (Sintoma4 == 2), assert(fact(alteracoes_pele=nao))), nl,
+    read(Sintoma2),
+    ((Sintoma2 == 1), assert(fact(alteracoes_pele=sim));
+     (Sintoma2 == 2), assert(fact(alteracoes_pele=nao))), nl,
+
+    write(
+     "____________________________________________________________________________________________________
+    
+                    Tem alterações de humor ou comportamento?
+    
+                    1- Sim
+                    2- Não
+    
+     ____________________________________________________________________________________________________"), nl, nl,
+        read(Sintoma3),
+        ((Sintoma3 == 1), assert(fact(alteracoes_humor_comportamento=sim));
+         (Sintoma3 == 2), assert(fact(alteracoes_humor_comportamento=nao))), nl,
 
     write(
     "____________________________________________________________________________________________________
 
-                    Tem alterações de humor ou comportamento?
+                    Tem alguma doença hereditária?
 
                     1- Sim
                     2- Não
-                    0- Sair
 
     ____________________________________________________________________________________________________"), nl, nl,
-    read(Sintoma5),
-    ((Sintoma5 == 0), halt;
-     (Sintoma5 == 1), assert(fact(alteracoes_humor_comportamento=sim));
-     (Sintoma5 == 2), assert(fact(alteracoes_humor_comportamento=nao))), nl,
+    read(Hereditaria),
+    ((Hereditaria == 1), assert(fact(hereditaria=sim));
+     (Hereditaria == 2), assert(fact(hereditaria=nao))), nl,
+
 
     write("____________________________________________________________________________________________________"), nl, nl,
     write('RESULTADO'), nl,
 
-    q4(C),
+    q11(C),
 
     write('Doença: '), write(C), nl, nl,
 
