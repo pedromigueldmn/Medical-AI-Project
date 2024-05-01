@@ -33,24 +33,25 @@ menu :-
  
                     Indique a sua idade
 
-                    1- 0 a  anos
-                    2- 4 a 10 anos
-                    3- 26 a 35
-                    4- 36 a 45
-                    5- 46 a 55
-                    6- Maior de 55
- 
+                    1- 0 a 2 anos
+                    2- 3 a 12 anos
+                    3- 13 a 17 anos
+                    4- 18 a 29
+                    5- 30 a 59
+                    6- 60 a 74
+                    7- Mais de 75
                     0- Sair 
 
     ___________________________________________________________________________________________________"), nl, nl,
     read(Idade),
     ((Idade == 0), halt;
-     (Idade == 1), assert(fact(idade=idade15a17));
-     (Idade == 2), assert(fact(idade=idade18a25));
-     (Idade == 3), assert(fact(idade=idade26a35));
-     (Idade == 4), assert(fact(idade=idade36a45));
-     (Idade == 5), assert(fact(idade=idade46a55));
-     (Idade == 6), assert(fact(idade=idademaior55))), nl,
+     (Idade == 1), assert(fact(faixa_etaria=bebe));
+     (Idade == 2), assert(fact(ifaixa_etaria=crianca));
+     (Idade == 3), assert(fact(faixa_etaria=adolescente));
+     (Idade == 4), assert(fact(faixa_etaria=adulto_jovem));
+     (Idade == 5), assert(fact(faixa_etaria=adulto));
+     (Idade == 6), assert(fact(faixa_etaria=meia_idade));
+     (Idade == 7), assert(fact(faixa_etaria=idoso))), nl,
 
     write(
     "____________________________________________________________________________________________________
