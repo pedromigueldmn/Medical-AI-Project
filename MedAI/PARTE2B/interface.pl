@@ -1,6 +1,6 @@
 % Paulo Cortez 2021@
 %  Pedro Pires, Bruno Alves, Mariana Neiva, Liandro Cruz (2024)
-:- [satisfy, induce_ifthen, doenca_ifthen].
+:- [satisfy, induce_ifthen, doencas_ifthen].
 
 % the goal is to classify
 learn_rules:-
@@ -11,14 +11,22 @@ learn_rules:-
     listing(<==),
     told.
 
-% example of classifying
-q1(Class):- classify([idade=idade18a25,aspeto=preco,tipo=carne,preco=preco5a7],Class), write(classify([idade=idade18a25,aspeto=preco,tipo=carne,preco=preco5a7],Class)).
-q2(Class):- classify([idade=idade18a25,aspeto=variedade,tipo=carne,preco=preco7a10],Class).
-q3(Class):- classify([tipo=francesinha, preco=preco5a7],Class).
-q6(Class):- classify([tipo=hamburguers, preco=preco7a10, aspeto=variedade],Class).
-q5(Class):- classify([idade=idademaior55,aspeto=comida,tipo=peixe,preco=preco15a20], Class).
+% Exemplo de classificação para doenças
+q1(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adolescente], Class).
+q2(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=crianca], Class).
+q3(Class):- classify([alteracoes_pele=nao, hereditaria=sim, febre=nao], Class).
+q4(Class):- classify([alteracoes_pele=sim, febre=nao], Class).
 
-q4(Class):- findall(A,fact(A),Z), classify(Z,Class), retractall(fact(_)).
+q5(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto, alteracoes_humor_comportamento=nao], Class).
+q6(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto_jovem], Class).
+q7(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=idoso], Class).
+q8(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=meia_idade], Class).
+q9(Class):- classify([alteracoes_pele=nao, hereditaria=sim, febre=sim], Class).
+q10(Class):- classify([alteracoes_pele=sim, febre=sim], Class).
+
+% Função para coletar fatos e classificar
+q11(Class):- findall(A,fact(A),Z), classify(Z,Class), retractall(fact(_)).
+
 
 menu :- 
     write(
