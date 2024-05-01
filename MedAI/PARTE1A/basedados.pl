@@ -139,7 +139,8 @@ doenca('diarreia',
         naofarmacologico('alimentacao_leve', 'Opte por uma dieta leve e de fácil digestão, incluindo alimentos como arroz branco, bananas, torradas, maçãs cozidas, cenouras cozidas e frango cozido sem pele. Evite alimentos gordurosos, picantes, muito açucarados, lácteos, alimentos ricos em fibras e cafeína, pois podem piorar a diarreia.'),
         naofarmacologico('lavar_maos', 'Lave as mãos regularmente com água e sabão para evitar a propagação de germes que podem causar diarreia.')
     ],
-    'https://www.msdmanuals.com/pt-pt/casa/dist%C3%BArbios-digestivos/sintomas-de-dist%C3%BArbios-digestivos/diarreia-em-adultos').
+    'https://www.msdmanuals.com/pt-pt/casa/distC3BArbios-digestivos/sintomas-de-distC3BArbios-digestivos/diarreia-em-adultos'
+    ).
     
     
 doenca('asma',
@@ -344,7 +345,7 @@ doenca('refluxo_gastroesofagico',
     ],
     'https://www.cuf.pt/saude-a-z/refluxo-gastroesofagico').
 
-/*doenca('amigdalite',
+doenca('amigdalite',
     ['inchaco_na_garganta', 'garganta_vermelha','dificuldade_em_engolir','dor_de_garganta'],
     [
         % Tratamentos para 0-3 anos
@@ -425,32 +426,6 @@ doenca('otite',
     ],
     'https://www.mayoclinic.org/diseases-conditions/ear-infections/symptoms-causes/syc-20351616').
 
-doenca('pneumonia',
-    ['tosse', 'febre', 'dificuldade_respiratoria', 'aperto_peito'],
-    [
-        % Tratamentos para 0-3 anos
-        farmacologico('amoxicilina', '0-3', '125mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à pneumonia em bebês e crianças pequenas.', 'n', 'c'),
-        farmacologico('paracetamol', '0-3', '120mg', 'Tomar 5 mL de xarope a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'x'),
-
-        % Tratamentos para 4-10 anos
-        farmacologico('amoxicilina', '4-10', '250mg', 'Tomar a cada 12 horas ajuda a tratar a infecção bacteriana associada à pneumonia em crianças.', 'n', 'c'),
-        farmacologico('paracetamol', '4-10', '250mg', 'Tomar a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
-
-        % Tratamentos para 11-17 anos
-        farmacologico('azitromicina', '11-17', '500mg', 'Tomar uma vez ao dia durante 3 dias pode ajudar a tratar a pneumonia em adolescentes.', 'n', 'c'),
-        farmacologico('ibuprofeno', '11-17', '200mg', 'Tomar a cada 6-8 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
-
-        % Tratamentos para 18+ anos
-        farmacologico('azitromicina', '18+', '500mg', 'Tomar uma vez ao dia durante 5 dias ou conforme prescrito pelo médico ajuda a tratar a pneumonia em adultos.', 'n', 'c'),
-        farmacologico('paracetamol', '18+', '1000mg', 'Tomar a cada 4-6 horas pode ajudar a reduzir a febre e o desconforto.', 's', 'c'),
-
-        % Tratamentos não farmacológicos (gerais)
-        naofarmacologico('repouso', 'Descansar ajuda o corpo a se recuperar mais rapidamente.'),
-        naofarmacologico('hidratacao', 'Beber líquidos em abundância ajuda a manter o corpo hidratado e a diluir o muco.'),
-        naofarmacologico('evitar_fumo', 'Evitar o fumo e a exposição ao fumo passivo ajuda a proteger os pulmões e facilita a recuperação.')
-    ],
-    'https://www.mayoclinic.org/diseases-conditions/pneumonia/symptoms-causes/syc-20354204').
-*/
 
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-

@@ -116,7 +116,15 @@ questao6:- write('**************************************************************
         (A6 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao7;
         (A6 == 32), assert(fact(diminuicao_da_flexibilidade)), questao7;
         (A6 == 33), assert(fact(sensacao_de_fadiga)), questao7;
-        (A6 == 34), assert(fact(dor_abdominal)), questao7).
+        (A6 == 34), assert(fact(dor_abdominal)), questao7;
+        (A6 == 35), assert(fact(inchaco_na_garganta)), questao7;
+        (A6 == 36), assert(fact(garganta_vermelha)), questao7;
+        (A6 == 37), assert(fact(ardor_ao_urinar)), questao7;
+        (A6 == 38), assert(fact(urgencia_urinaria)), questao7;
+        (A6 == 39), assert(fact(urina_turva)), questao7;
+        (A6 == 40), assert(fact(dor_de_ouvido)), questao7;
+        (A6 == 41), assert(fact(perda_auditiva_temporaria)), questao7;
+        (A6 == 42), assert(fact(dor_ao_mastigar)), questao7).
 
 
         questao7:- write('********************************************************************************************************'), nl,
@@ -157,7 +165,15 @@ questao6:- write('**************************************************************
         (A7 == 31), assert(fact(sensacao_de_sono_nao_reparador)), questao8;
         (A7 == 32), assert(fact(diminuicao_da_flexibilidade)), questao8;
         (A7 == 33), assert(fact(sensacao_de_fadiga)), questao8;
-        (A7 == 34), assert(fact(dor_abdominal)), questao8).
+        (A7 == 34), assert(fact(dor_abdominal)), questao8;
+        (A7 == 35), assert(fact(inchaco_na_garganta)), questao8;
+        (A7 == 36), assert(fact(garganta_vermelha)), questao8;
+        (A7 == 37), assert(fact(ardor_ao_urinar)), questao8;
+        (A7 == 38), assert(fact(urgencia_urinaria)), questao8;
+        (A7 == 39), assert(fact(urina_turva)), questao8;
+        (A7 == 40), assert(fact(dor_de_ouvido)), questao8;
+        (A7 == 41), assert(fact(perda_auditiva_temporaria)), questao8;
+        (A7 == 42), assert(fact(dor_ao_mastigar)), questao8).
 
 questao8:- write('********************************************************************************************************'), nl,
     write('**  Que sintomas está a experienciar? Selecione três sintomas, um de cada vez:'), nl,
@@ -197,7 +213,15 @@ questao8:- write('**************************************************************
     (A8 == 31), assert(fact(sensacao_de_sono_nao_reparador)), resultado;
     (A8 == 32), assert(fact(diminuicao_da_flexibilidade)), resultado;
     (A8 == 33), assert(fact(sensacao_de_fadiga)), resultado;
-    (A8 == 34), assert(fact(dor_abdominal)), resultado).
+    (A8 == 34), assert(fact(dor_abdominal)), resultado;
+    (A8 == 35), assert(fact(inchaco_na_garganta)), resultado;
+    (A8 == 36), assert(fact(garganta_vermelha)), resultado;
+    (A8 == 37), assert(fact(ardor_ao_urinar)), resultado;
+    (A8 == 38), assert(fact(urgencia_urinaria)), resultado;
+    (A8 == 39), assert(fact(urina_turva)), resultado;
+    (A8 == 40), assert(fact(dor_de_ouvido)), resultado;
+    (A8 == 41), assert(fact(perda_auditiva_temporaria)), resultado;
+    (A8 == 42), assert(fact(dor_ao_mastigar)), resultado).
 
 
 write_sintomas:- 
@@ -235,7 +259,15 @@ write_sintomas:-
                 write('**  31 - Sensação de sono não reparador'), nl,
                 write('**  32 - Diminuição da flexibilidade'), nl,
                 write('**  33 - Sensação de fadiga'), nl,
-                write('**  34 - Dor abdominal'), nl,nl,
+                write('**  34 - Dor abdominal'), nl,
+                write('**  35 - Inchaço na garganta'), nl,
+                write('**  36 - Garganta inflamada'), nl,
+                write('**  37 - Ardor ao urinar'), nl,
+                write('**  38 - Urgencia urinária'), nl,
+                write('**  39 - Urina turva'), nl,
+                write('**  40 - Dor de ouvido'), nl,
+                write('**  41 - Perda temporária de audição'), nl,
+                write('**  42 - Dor ao mastigar'), nl,nl,
     true.
 
 resultado:- write('********************************************************************************************************'), nl,
