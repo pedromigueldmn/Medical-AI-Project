@@ -429,18 +429,33 @@ doenca('otite',
 
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-
-    SintomasUsuario = [Sintoma1, Sintoma2, Sintoma3],
-    findall(
-        Doenca-TratamentosFiltrados,
-        (
-            doenca(Doenca, Sintomas, Tratamentos, _),
-            (sintomas_criticos_validos(SintomasUsuario, Sintomas)),
-            filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
-        ),
-        Resultados
+    (   sintomas_criticos_validos([Sintoma1, Sintoma2], [Sintoma1, Sintoma2, Sintoma3]) -> % Verifica se os dois primeiros sintomas são críticos
+        findall(
+            Doenca-TratamentosFiltrados,
+            (
+                doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
+                member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
+                member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
+                member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
+                filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
+            ),
+            Resultados
+        )
+    ;   findall(
+            Doenca-TratamentosFiltrados,
+            (
+                doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
+                member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
+                member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
+                member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
+                filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
+            ),
+            Resultados
+        )
     ),
     remover_duplicatas(Resultados, ResultadosUnicos),
     writeln(ResultadosUnicos).
+
 
 
 remover_duplicatas([], []).
@@ -454,8 +469,12 @@ remover_duplicatas([X|Xs], [X|Resultado]) :-
 
 % Validação da presença de sintomas críticos (os dois primeiros sintomas são considerados críticos).
 sintomas_criticos_validos(SintomasUsuario, [Sintoma1, Sintoma2|_]) :-
-    member(Sintoma1, SintomasUsuario),
-    member(Sintoma2, SintomasUsuario).
+    doenca(_, SintomasDaDoenca, _, _),  % Pega a lista de sintomas de qualquer doença
+    member(Sintoma1, SintomasUsuario),  % Verifica se Sintoma1 está na lista de sintomas do usuário
+    member(Sintoma2, SintomasUsuario),  % Verifica se Sintoma2 está na lista de sintomas do usuário
+    member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está na lista de sintomas da doença
+    member(Sintoma2, SintomasDaDoenca). % Verifica se Sintoma2 está na lista de sintomas da doença
+
 
 % Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
 % Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
@@ -548,9 +567,5 @@ perfil(39, I, G, T) :- procurardoenca('urgencia_urinaria', 'dor_abdominal', 'uri
 perfil(40, I, G, T) :- procurardoenca('dor_de_ouvido', 'febre', _, I, G, T).
 perfil(41, I, G, T) :- procurardoenca('dor_de_ouvido', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
 perfil(42, I, G, T) :- procurardoenca('febre', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
-
-perfil(43, I, G, T) :- procurardoenca('tosse', 'febre', _, I, G, T).
-perfil(44, I, G, T) :- procurardoenca('tosse', 'dificuldade_respiratoria', 'aperto_peito', I, G, T).
-perfil(45, I, G, T) :- procurardoenca('febre', 'dificuldade_respiratoria', 'aperto_peito', I, G, T).
 
 
