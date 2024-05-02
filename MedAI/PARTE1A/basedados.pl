@@ -83,7 +83,7 @@ doenca('rinite_alergica',
     % Tratamentos para 0-3 anos
         farmacologico('loratadina', '0-3', '5mg', 'Tomar 2.5 mL de xarope ao dia para aliviar os sintomas da alergia, sem causar sonolência.', 's', 'x'),
         farmacologico('fluticasona', '0-3', '27.5 mcg', 'Aplicar um spray em cada narina uma vez ao dia para reduzir a inflamação.', 's', 'sp'),
-        farmacologico('montelucaste', '0-3', '4mg', 'Tomar 2.5 mL de xarope ao dia à noite para controle da alergia.', 's', 'xarope'),
+        farmacologico('montelucaste', '0-3', '4mg', 'Tomar 2.5 mL de xarope ao dia à noite para controle da alergia.', 's', 'x'),
     
     % Tratamentos para 4-10 anos
         farmacologico('loratadina', '4-10', '10mg', 'Tomar um comprimido ao dia para aliviar os sintomas da alergia, sem causar sonolência.', 's', 'c'),
@@ -426,33 +426,20 @@ doenca('otite',
     ],
     'https://www.mayoclinic.org/diseases-conditions/ear-infections/symptoms-causes/syc-20351616').
 
-
 % Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-
-    (   sintomas_criticos_validos([Sintoma1, Sintoma2], [Sintoma1, Sintoma2, Sintoma3]) -> % Verifica se os dois primeiros sintomas são críticos
-        findall(
-            Doenca-TratamentosFiltrados,
-            (
-                doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
-                member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
-                member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
-                member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
-                filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
-            ),
-            Resultados
-        )
-    ;   findall(
-            Doenca-TratamentosFiltrados,
-            (
-                doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
-                member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
-                member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
-                member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
-                filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
-            ),
-            Resultados
-        )
-    ),
+    findall(
+        Doenca-TratamentosFiltrados,
+        (
+            doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
+            member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
+            member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
+            member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
+            filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
+        ),
+        Resultados
+    )
+    ,
     remover_duplicatas(Resultados, ResultadosUnicos),
     writeln(ResultadosUnicos).
 
@@ -466,15 +453,6 @@ remover_duplicatas([X|Xs], Resultado) :-
 remover_duplicatas([X|Xs], [X|Resultado]) :-
     remover_duplicatas(Xs, Resultado).
             
-
-% Validação da presença de sintomas críticos (os dois primeiros sintomas são considerados críticos).
-sintomas_criticos_validos(SintomasUsuario, [Sintoma1, Sintoma2|_]) :-
-    doenca(_, SintomasDaDoenca, _, _),  % Pega a lista de sintomas de qualquer doença
-    member(Sintoma1, SintomasUsuario),  % Verifica se Sintoma1 está na lista de sintomas do usuário
-    member(Sintoma2, SintomasUsuario),  % Verifica se Sintoma2 está na lista de sintomas do usuário
-    member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está na lista de sintomas da doença
-    member(Sintoma2, SintomasDaDoenca). % Verifica se Sintoma2 está na lista de sintomas da doença
-
 
 % Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
 % Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
@@ -511,61 +489,75 @@ farmacologicos(Idade, Gravida, TipoFarmacologico, Solucao) :-
 nao_farmacologicos(Solucao) :-
     Solucao = naofarmacologico(_, _).
 
-%Perfis
-perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', _, I, G, T).
-perfil(2, I, G, T) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', I, G, T).
-perfil(3, I, G, T) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', I, G, T).
 
-perfil(4, I, G, T) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', _, I, G, T).
-perfil(5, I, G, T) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', I, G, T).
-perfil(6, I, G, T) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', I, G, T).
+perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', 'gases', I, G, T).
+perfil(2, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', 'nauseas_vomitos', I, G, T).
+perfil(3, I, G, T) :- procurardoenca('urgencia_em_defecar', 'gases', 'nauseas_vomitos', I, G, T).
+perfil(4, I, G, T) :- procurardoenca('colicas', 'gases', 'nauseas_vomitos', I, G, T).
 
-perfil(7, I, G, T) :- procurardoenca('aperto_peito', 'tonturas', _, I, G, T).
-perfil(8, I, G, T) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', I, G, T).
-perfil(9, I, G, T) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', I, G, T).
+perfil(5, I, G, T) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', 'aperto_peito', I, G, T).
+perfil(6, I, G, T) :- procurardoenca('dificuldade_respirar', 'respiracao_rapida_curta', 'tosse', I, G, T).
+perfil(7, I, G, T) :- procurardoenca('dificuldade_respirar', 'tosse', 'aperto_peito', I, G, T).
+perfil(8, I, G, T) :- procurardoenca('respiracao_rapida_curta', 'tosse', 'aperto_peito', I, G, T).
 
-perfil(10, I, G, T) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', _, I, G, T).
-perfil(11, I, G, T) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
-perfil(12, I, G, T) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
+perfil(9, I, G, T) :- procurardoenca('aperto_peito', 'tonturas', 'visao_desfocada', I, G, T).
+perfil(10, I, G, T) :- procurardoenca('aperto_peito', 'tonturas', 'sangramento_nasal', I, G, T).
+perfil(11, I, G, T) :- procurardoenca('aperto_peito', 'sangramento_nasal', 'visao_desfocada', I, G, T).
+perfil(12, I, G, T) :- procurardoenca('tonturas', 'sangramento_nasal', 'visao_desfocada', I, G, T).
 
-perfil(13, I, G, T) :- procurardoenca('dor_de_cabeca', 'febre', _, I, G, T).
-perfil(14, I, G, T) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', I, G, T).
-perfil(15, I, G, T) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', I, G, T).
+perfil(13, I, G, T) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', 'visao_desfocada', I, G, T).
+perfil(14, I, G, T) :- procurardoenca('dor_de_cabeca', 'nauseas_vomitos', 'sensibilidade_luz', I, G, T).
+perfil(15, I, G, T) :- procurardoenca('dor_de_cabeca', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
+perfil(16, I, G, T) :- procurardoenca('nauseas_vomitos', 'sensibilidade_luz', 'visao_desfocada', I, G, T).
 
-perfil(16, I, G, T) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', _, I, G, T).
-perfil(17, I, G, T) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', I, G, T).
-perfil(18, I, G, T) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', I, G, T).
+perfil(17, I, G, T) :- procurardoenca('dor_de_cabeca', 'febre', 'congestao_nasal', I, G, T).
+perfil(18, I, G, T) :- procurardoenca('dor_de_cabeca', 'febre', 'dores_musculares', I, G, T).
+perfil(19, I, G, T) :- procurardoenca('dor_de_cabeca', 'dores_musculares', 'congestao_nasal', I, G, T).
+perfil(20, I, G, T) :- procurardoenca('febre', 'dores_musculares', 'congestao_nasal', I, G, T).
 
-perfil(19, I, G, T) :- procurardoenca('nariz_entupido', 'espirros', _, I, G, T).
-perfil(20, I, G, T) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', I, G, T).
-perfil(21, I, G, T) :- procurardoenca('espirros', 'febre', 'dor_abdominal', I, G, T).
+perfil(21, I, G, T) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', 'rouquidao', I, G, T).
+perfil(22, I, G, T) :- procurardoenca('dor_de_garganta', 'dificuldade_em_engolir', 'tosse', I, G, T).
+perfil(23, I, G, T) :- procurardoenca('dor_de_garganta', 'tosse', 'rouquidao', I, G, T).
+perfil(24, I, G, T) :- procurardoenca('dificuldade_em_engolir', 'rouquidao', 'tosse', I, G, T).
 
-perfil(22, I, G, T) :- procurardoenca('coceira_garganta', 'espirros', _, I, G, T).
-perfil(23, I, G, T) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
-perfil(24, I, G, T) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
+perfil(25, I, G, T) :- procurardoenca('nariz_entupido', 'espirros', 'dor_abdominal', I, G, T).
+perfil(26, I, G, T) :- procurardoenca('nariz_entupido', 'espirros', 'febre', I, G, T).
+perfil(27, I, G, T) :- procurardoenca('nariz_entupido', 'febre', 'dor_abdominal', I, G, T).
+perfil(28, I, G, T) :- procurardoenca('espirros', 'febre', 'dor_abdominal', I, G, T).
 
-perfil(25, I, G, T) :- procurardoenca('azia', 'regurgitacao', _, I, G, T).
-perfil(26, I, G, T) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
-perfil(27, I, G, T) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
+perfil(29, I, G, T) :- procurardoenca('coceira_garganta', 'espirros', 'coceira_nos_olhos', I, G, T).
+perfil(30, I, G, T) :- procurardoenca('coceira_garganta', 'espirros', 'nariz_entupido', I, G, T).
+perfil(31, I, G, T) :- procurardoenca('espirros', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
+perfil(32, I, G, T) :- procurardoenca('coceira_garganta', 'nariz_entupido', 'coceira_nos_olhos', I, G, T).
 
-perfil(28, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', _, I, G, T).
-perfil(29, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
-perfil(30, I, G, T) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
+perfil(33, I, G, T) :- procurardoenca('azia', 'regurgitacao', 'dificuldade_em_engolir', I, G, T).
+perfil(34, I, G, T) :- procurardoenca('azia', 'regurgtiacao', 'nauseas_vomitos', I, G, T).
+perfil(35, I, G, T) :- procurardoenca('azia', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
+perfil(36, I, G, T) :- procurardoenca('regurgitacao', 'nauseas_vomitos', 'dificuldade_em_engolir', I, G, T).
 
-perfil(31, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', _, I, G, T).
-perfil(32, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
-perfil(33, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
+perfil(37, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', 'sensacao_de_fadiga', I, G, T).
+perfil(38, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', I, G, T).
+perfil(39, I, G, T) :- procurardoenca('dor_na_regiao_lombar', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
+perfil(40, I, G, T) :- procurardoenca('dormencia_gluteos_pernas', 'diminuicao_da_flexibilidade', 'sensacao_de_fadiga', I, G, T).
 
-perfil(34, I, G, T) :- procurardoenca('inchaco_na_garganta', 'garganta_vermelha', _, I, G, T).
-perfil(35, I, G, T) :- procurardoenca('inchaco_na_garganta', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
-perfil(36, I, G, T) :- procurardoenca('garganta_vermelha', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
+perfil(41, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', 'sensacao_de_sono_nao_reparador', I, G, T).
+perfil(42, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', I, G, T).
+perfil(43, I, G, T) :- procurardoenca('dificuldade_em_adormecer', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
+perfil(44, I, G, T) :- procurardoenca('acordar_frequentemente_durante_a_noite', 'acordar_cedo_demais', 'sensacao_de_sono_nao_reparador', I, G, T).
 
-perfil(37, I, G, T) :- procurardoenca('ardor_ao_urinar', 'urgencia_urinaria', _, I, G, T).
-perfil(38, I, G, T) :- procurardoenca('ardor_ao_urinar', 'dor_abdominal', 'urina_turva', I, G, T).
-perfil(39, I, G, T) :- procurardoenca('urgencia_urinaria', 'dor_abdominal', 'urina_turva', I, G, T).
+perfil(45, I, G, T) :- procurardoenca('inchaco_na_garganta', 'garganta_vermelha', 'dor_de_garganta', I, G, T).
+perfil(46, I, G, T) :- procurardoenca('inchaco_na_garganta', 'garganta_vermelha', 'dificuldade_em_engolir', I, G, T).
+perfil(47, I, G, T) :- procurardoenca('inchaco_na_garganta', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
+perfil(48, I, G, T) :- procurardoenca('garganta_vermelha', 'dificuldade_em_engolir', 'dor_de_garganta', I, G, T).
 
-perfil(40, I, G, T) :- procurardoenca('dor_de_ouvido', 'febre', _, I, G, T).
-perfil(41, I, G, T) :- procurardoenca('dor_de_ouvido', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
-perfil(42, I, G, T) :- procurardoenca('febre', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
+perfil(49, I, G, T) :- procurardoenca('ardor_ao_urinar', 'urgência_urinária', 'urina_turva', I, G, T).
+perfil(50, I, G, T) :- procurardoenca('ardor_ao_urinar', 'urgência_urinária', 'dor_abdominal', I, G, T).
+perfil(51, I, G, T) :- procurardoenca('ardor_ao_urinar', 'dor_abdominal', 'urina_turva', I, G, T).
+perfil(52, I, G, T) :- procurardoenca('urgência_urinária', 'dor_abdominal', 'urina_turva', I, G, T).
+
+perfil(53, I, G, T) :- procurardoenca('dor_de_ouvido', 'febre', 'dor_ao_mastigar', I, G, T).
+perfil(54, I, G, T) :- procurardoenca('dor_de_ouvido', 'febre', 'perda_auditiva_temporaria', I, G, T).
+perfil(55, I, G, T) :- procurardoenca('dor_de_ouvido', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
+perfil(56, I, G, T) :- procurardoenca('febre', 'perda_auditiva_temporaria', 'dor_ao_mastigar', I, G, T).
 
 

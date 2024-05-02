@@ -104,7 +104,7 @@ questao6:- write('**************************************************************
         (A6 == 19), assert(fact(rouquidao)), questao7;
         (A6 == 20), assert(fact(nariz_entupido)), questao7;
         (A6 == 21), assert(fact(espirros)), questao7;
-        (A6 == 22), assert(fact(coceira_olhos)), questao7;
+        (A6 == 22), assert(fact(coceira_nos_olhos)), questao7;
         (A6 == 23), assert(fact(coceira_garganta)), questao7;
         (A6 == 24), assert(fact(azia)), questao7;
         (A6 == 25), assert(fact(regurgitacao)), questao7;
@@ -153,7 +153,7 @@ questao6:- write('**************************************************************
         (A7 == 19), assert(fact(rouquidao)), questao8;
         (A7 == 20), assert(fact(nariz_entupido)), questao8;
         (A7 == 21), assert(fact(espirros)), questao8;
-        (A7 == 22), assert(fact(coceira_olhos)), questao8;
+        (A7 == 22), assert(fact(coceira_nos_olhos)), questao8;
         (A7 == 23), assert(fact(coceira_garganta)), questao8;
         (A7 == 24), assert(fact(azia)), questao8;
         (A7 == 25), assert(fact(regurgitacao)), questao8;
@@ -201,7 +201,7 @@ questao8:- write('**************************************************************
     (A8 == 19), assert(fact(rouquidao)), resultado;
     (A8 == 20), assert(fact(nariz_entupido)), resultado;
     (A8 == 21), assert(fact(espirros)), resultado;
-    (A8 == 22), assert(fact(coceira_olhos)), resultado;
+    (A8 == 22), assert(fact(coceira_nos_olhos)), resultado;
     (A8 == 23), assert(fact(coceira_garganta)), resultado;
     (A8 == 24), assert(fact(azia)), resultado;
     (A8 == 25), assert(fact(regurgitacao)), resultado;
