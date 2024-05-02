@@ -426,36 +426,31 @@ doenca('otite',
     ],
     'https://www.mayoclinic.org/diseases-conditions/ear-infections/symptoms-causes/syc-20351616').
 
-% Predicado principal para procurar doenças e tratamentos correspondentes com base nos sintomas, idade, gravidez e tipo farmacológico.
+% Predicado principal que procura doenças com base em sintomas e filtros específicos
 procurardoenca(Sintoma1, Sintoma2, Sintoma3, Idade, Gravida, TipoFarmacologico) :-
     findall(
         Doenca-TratamentosFiltrados,
         (
-            doenca(Doenca, SintomasDaDoenca, Tratamentos, _), % Obtém os sintomas da doença
-            member(Sintoma1, SintomasDaDoenca), % Verifica se Sintoma1 está presente nos sintomas da doença
-            member(Sintoma2, SintomasDaDoenca), % Verifica se Sintoma2 está presente nos sintomas da doença
-            member(Sintoma3, SintomasDaDoenca), % Verifica se Sintoma3 está presente nos sintomas da doença
+            doenca(Doenca, SintomasDaDoenca, Tratamentos, Link),
+            member(Sintoma1, SintomasDaDoenca),
+            member(Sintoma2, SintomasDaDoenca),
+            member(Sintoma3, SintomasDaDoenca),
             filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados)
         ),
         Resultados
-    )
-    ,
+    ),
     remover_duplicatas(Resultados, ResultadosUnicos),
-    writeln(ResultadosUnicos).
+    imprimir_resultados(ResultadosUnicos).
 
-
-
+% Remover duplicatas da lista de resultados
 remover_duplicatas([], []).
 remover_duplicatas([X|Xs], Resultado) :-
-    member(X, Xs),
-    !,
+    member(X, Xs), !,
     remover_duplicatas(Xs, Resultado).
 remover_duplicatas([X|Xs], [X|Resultado]) :-
     remover_duplicatas(Xs, Resultado).
-            
 
-% Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
-% Filtra tratamentos, separando farmacológicos que respeitam as restrições de idade, gravidez e tipo, e incluindo sempre os não farmacológicos.
+% Filtrar tratamentos com base em idade, estado de gravidez e tipo farmacológico
 filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosFiltrados) :-
     include(
         farmacologicos(Idade, Gravida, TipoFarmacologico),
@@ -467,12 +462,12 @@ filtrar_tratamentos(Tratamentos, Idade, Gravida, TipoFarmacologico, TratamentosF
         Tratamentos,
         TratamentosNaoFarmacologicos
     ),
-    (   TratamentosFiltradosTemp = [] % Se não houver tratamentos farmacológicos filtrados
-    ->  TratamentosFiltrados = TratamentosNaoFarmacologicos % Incluir apenas os tratamentos não farmacológicos
-    ;   append(TratamentosFiltradosTemp, TratamentosNaoFarmacologicos, TratamentosFiltrados) % Caso contrário, incluir tratamentos farmacológicos e não farmacológicos
+    (   TratamentosFiltradosTemp = []
+    ->  TratamentosFiltrados = TratamentosNaoFarmacologicos
+    ;   append(TratamentosFiltradosTemp, TratamentosNaoFarmacologicos, TratamentosFiltrados)
     ).
 
-% Predicado para validar soluções farmacológicas conforme restrições de idade, gravidez e tipo.
+% Predicado para validar soluções farmacológicas conforme restrições
 farmacologicos(Idade, Gravida, TipoFarmacologico, Solucao) :-
     Solucao = farmacologico(_, IdadeNecessaria, _, _, Gravida_Pode_Tomar, TipoFarmacologico_Doencas),
     IdadeNecessaria = Idade,
@@ -480,14 +475,53 @@ farmacologicos(Idade, Gravida, TipoFarmacologico, Solucao) :-
     (
         (Gravida = 's') -> Gravida_Pode_Tomar = 's'
         ; (Gravida = 'n') -> Gravida_Pode_Tomar = _
-        ; (Gravida = 'n') -> Gravida_Pode_Tomar = _
     ).
 
-
-
-% Predicado para filtrar tratamentos não farmacológicos.
+% Predicado para filtrar tratamentos não farmacológicos
 nao_farmacologicos(Solucao) :-
     Solucao = naofarmacologico(_, _).
+
+% Função para imprimir os resultados de forma estruturada e esteticamente agradável
+imprimir_resultados([]).
+imprimir_resultados([Doenca-Tratamentos|Resto]) :-
+    doenca(Doenca, Sintomas, _, Link),
+    writeln('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'),
+    format('A sua doença é: ~w~n', [Doenca]),
+    format('Sintomas frequentes de ~w são: ~w~n~n', [Doenca, Sintomas]),
+    separar_tratamentos(Tratamentos, Farmacologicos, NaoFarmacologicos),
+    writeln('TRATAMENTOS FARMACOLÓGICOS:'),
+    imprimir_tratamentos(Farmacologicos),
+    writeln('TRATAMENTOS NÃO FARMACOLÓGICOS:'),
+    imprimir_tratamentos(NaoFarmacologicos),
+    format('Esperamos que se sinta melhor. Caso queira saber mais sobre ~w, pode encontrar mais informações em: ~w~n', [Doenca, Link]),
+    writeln('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'),
+    imprimir_resultados(Resto).
+
+% Separar tratamentos farmacológicos e não farmacológicos
+separar_tratamentos([], [], []).
+separar_tratamentos([farmacologico(Nome, Idade, Dose, Descricao, Gravida_Pode_Tomar, Tipo)|Resto], [farmacologico(Nome, Idade, Dose, Descricao, Gravida_Pode_Tomar, Tipo)|Farmacologicos], NaoFarmacologicos) :-
+    separar_tratamentos(Resto, Farmacologicos, NaoFarmacologicos).
+separar_tratamentos([naofarmacologico(Tipo, Descricao)|Resto], Farmacologicos, [naofarmacologico(Tipo, Descricao)|NaoFarmacologicos]) :-
+    separar_tratamentos(Resto, Farmacologicos, NaoFarmacologicos).
+
+% Função auxiliar para imprimir detalhes de cada tratamento
+imprimir_tratamentos([]).
+imprimir_tratamentos([farmacologico(Nome, Idade, Dose, Descricao, Gravida_Pode_Tomar, Tipo)|Resto]) :-
+    format('    Nome: ~w~n', [Nome]),
+    format('    Idade: ~w~n', [Idade]),
+    format('    Dose: ~w~n', [Dose]),
+    format('    Descrição: ~w~n', [Descricao]),
+    format('    Gravidez: ~w~n', [Gravida_Pode_Tomar]),
+    format('    Tipo: ~w~n~n', [Tipo]),
+    imprimir_tratamentos(Resto).
+imprimir_tratamentos([naofarmacologico(Tipo, Descricao)|Resto]) :-
+    format('    Tratamento: ~w~n', [Tipo]),
+    format('    Descrição: ~w~n~n', [Descricao]),
+    imprimir_tratamentos(Resto).
+
+
+
+
 
 
 perfil(1, I, G, T) :- procurardoenca('urgencia_em_defecar', 'colicas', 'gases', I, G, T).

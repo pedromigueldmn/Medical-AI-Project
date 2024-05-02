@@ -282,7 +282,7 @@ resultadowrite(P):-
             idade(I),nl,
             gravida(G),nl,
             farma(T),nl,
-            write('     TRATAMENTO ACONSELHADO: '),perfil(P,I,G,T),nl,nl,
+            write(''),perfil(P,I,G,T),nl,nl,
             write('********************************************************************************************************'),
             retractall(idade(I)),retractall(gravida(G)),retractall(farma(T)),retractall(fact(_)).
 
