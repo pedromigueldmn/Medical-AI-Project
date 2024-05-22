@@ -22,6 +22,7 @@ tratamento(soro,15).
 tratamento(oculos,500).
 tratamento(lentes_contacto,300).
 tratamento(ambulatorio,800).
+tratamento(end,0).
 
 %percurso(Tratamento_origem,Tratamento_destino,tempo_do_tratamento_destino)
 percurso(start,paracetamol,2).
@@ -36,8 +37,9 @@ percurso(start,brufen,3).
 percurso(brufen,fisioterapia,6).
 percurso(fisioterapia,end,0).
 percurso(fisioterapia,cirurgia,3).
-percurso(cirurgua,internamento,3).
+percurso(cirurgia,internamento,3).
 percurso(internamento,end,0).
+
 
 possibilidade_fim(start,fisioterapia).
 possibilidade_fim(start,cineterapia).

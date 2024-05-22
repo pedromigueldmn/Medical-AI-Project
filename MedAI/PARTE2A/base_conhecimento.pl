@@ -1,23 +1,10 @@
-:- dynamic total_tempo/2.
-:- dynamic total_custo/2.
+% base_conhecimento.pl
+
+:- dynamic duracao/2.
+:- dynamic custo/2.
 :- [base_dados].
 
-% Cálculo do tempo total de um caminho
-calcular_tempo([end], 0).
-calcular_tempo([Tratamento1, Tratamento2 | Rest], TempoTotal) :-
-    percurso(Tratamento1, Tratamento2, Tempo),
-    calcular_tempo([Tratamento2 | Rest], TempoRestante),
-    TempoTotal is Tempo + TempoRestante.
-
-% Cálculo do custo total de um caminho
-calcular_custo([end], 0).
-calcular_custo([Tratamento | Rest], CustoTotal) :-
-    tratamento(Tratamento, Custo),
-    calcular_custo(Rest, CustoRestante),
-    CustoTotal is Custo + CustoRestante.
-calcular_custo([end | Rest], CustoTotal) :-
-    calcular_custo(Rest, CustoTotal).
-
+%-----------------------------------------------------------------------
 % Geração de todos os caminhos possíveis de 'start' a 'end'
 gerar_caminhos(start, end, Caminho) :-
     gerar_caminhos(start, end, [start], Caminho).
@@ -27,21 +14,90 @@ gerar_caminhos(TratamentoAtual, end, Visitados, Caminho) :-
     \+ member(ProximoTratamento, Visitados),
     gerar_caminhos(ProximoTratamento, end, [ProximoTratamento | Visitados], Caminho).
 
-lista_caminhos(start, ListaCaminhos) :-
+listaCaminhos(ListaCaminhos) :-
     findall(Caminho, gerar_caminhos(start, end, Caminho), ListaCaminhos).
 
-% Exibir caminhos com seus tempos e custos
-exibir_caminhos([]).
-exibir_caminhos([Caminho | Restantes]) :-
-    calcular_tempo(Caminho, Tempo),
-    calcular_custo(Caminho, Custo),
-    format('Caminho: ~w, Tempo Total: ~w, Custo Total: ~w~n', [Caminho, Tempo, Custo]),
-    exibir_caminhos(Restantes).
+%-----------------------------------------------------------------------
+% CustoCaminho
+custoTotal([], 0).
+custoTotal([_], 0). % Não há custo para o último tratamento
+custoTotal([TratamentoAtual, ProximoTratamento | Resto], Soma) :-
+    percurso(TratamentoAtual, ProximoTratamento, CustoPercurso),
+    tratamento(ProximoTratamento, CustoTratamento),
+    custoTotal([ProximoTratamento | Resto], TotalCusto),
+    Soma is CustoPercurso + CustoTratamento + TotalCusto.
 
-% Calcular e exibir todos os caminhos, tempos e custos
-calcular_todos_os_caminhos :-
-    lista_caminhos(start, ListaCaminhos),
-    exibir_caminhos(ListaCaminhos).
+guardarCustoTotal(Caminho) :-
+    custoTotal(Caminho, Valor),
+    assertz(custo(Caminho, Valor)).
 
-% Consultar este predicado para ver os resultados
-% ?- calcular_todos_os_caminhos.
+gerarCustosCaminhos([]).
+gerarCustosCaminhos([C1 | R1]) :-
+    guardarCustoTotal(C1),
+    gerarCustosCaminhos(R1).
+
+%-----------------------------------------------------------------------
+% TempoCaminho
+calcularTempo(_, [], 0).
+calcularTempo(P1, [P2 | R2], Soma) :-
+    percurso(P2, P1, TempoTratamentoIndividual),
+    calcularTempo(P2, R2, TempoTotal),
+    Soma is TempoTratamentoIndividual + TempoTotal.
+
+guardarTempo([]).
+guardarTempo([P1 | R1]) :-
+    calcularTempo(P1, R1, Valor),
+    assertz(duracao([P1 | R1], Valor)).
+
+gerarTemposCaminhos([]).
+gerarTemposCaminhos([C1 | R1]) :-
+    guardarTempo(C1),
+    gerarTemposCaminhos(R1).
+
+%-----------------------------------------------------------------------
+% CaminhoMaisCurto
+caminhoMaisCurto(Caminho, Tempo) :-
+    retractall(duracao(_, _)),
+    listaCaminhos(Lista),
+    gerarTemposCaminhos(Lista),
+    maisCurto(Caminho, Tempo).
+
+maisCurto(Caminho, Tempo) :-
+    duracao(Caminho, Tempo),
+    \+ (duracao(_, Tempo1), Tempo > Tempo1).
+
+%-----------------------------------------------------------------------
+% CaminhoMaisLongo
+caminhoMaisLongo(Caminho, Tempo) :-
+    retractall(duracao(_, _)),
+    listaCaminhos(Lista),
+    gerarTemposCaminhos(Lista),
+    maisLongo(Caminho, Tempo).
+
+maisLongo(Caminho, Tempo) :-
+    duracao(Caminho, Tempo),
+    \+ (duracao(_, Tempo1), Tempo1 > Tempo).
+
+%-----------------------------------------------------------------------
+% CaminhoMaisBarato
+caminhoMaisBarato(Caminho, Custo) :-
+    retractall(custo(_, _)),
+    listaCaminhos(Lista),
+    gerarCustosCaminhos(Lista),
+    maisBarato(Caminho, Custo).
+
+maisBarato(Caminho, Custo) :-
+    custo(Caminho, Custo),
+    \+ (custo(_, Custo1), Custo > Custo1).
+
+%-----------------------------------------------------------------------
+% CaminhoMaisCaro
+caminhoMaisCaro(Caminho, Custo) :-
+    retractall(custo(_, _)),
+    listaCaminhos(Lista),
+    gerarCustosCaminhos(Lista),
+    maisCaro(Caminho, Custo).
+
+maisCaro(Caminho, Custo) :-
+    custo(Caminho, Custo),
+    \+ (custo(_, Custo1), Custo1 > Custo).
