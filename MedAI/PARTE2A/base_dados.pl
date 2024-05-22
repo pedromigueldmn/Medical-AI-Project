@@ -26,20 +26,62 @@ tratamento(ambulatorio,800).
 tratamento(end,0).
 
 %percurso(Tratamento_origem,Tratamento_destino,tempo_do_tratamento_destino)
-percurso(start,paracetamol,2).
-percurso(paracetamol,descanso,2).
-percurso(descanso,cineterapia,8).
-percurso(cineterapia,end,0).
-percurso(cineterapia,calmante,90).
-percurso(calmante,ambulatorio,20).
-percurso(ambulatorio,end,0).
+/*
+S1 - start
+S2 - paracetamol
+S3 - brufen
+S4 - aspirina
+S5 - anti_histaminico
+S6 - descanso
+S7 - fisioterapia
+S8 - cineterapia
+S9 - desporto
+S10 - cirurgia
+S11 - inalacoes
+S12 - insulina
+S13 - antibiotico
+S14 - 
+S15 - ginastica
+S16 - 
+S17 - calmante
+S18 - injecoes
+S19 - 
+S20 - soro
+*/
 
+
+
+%start
+percurso(start,paracetamol,2).
 percurso(start,brufen,3).
+percurso(start,aspirina,4).
+percurso(start,anti_histaminico,5).
+percurso(start,descanso,2).
+
+%paracetamol
+percurso(paracetamol,descanso,2).
+percurso(paracetamol,fisioterapia,6).
+percurso(paracetamol,cineterapia,8).
+percurso(paracetamol,antibiotico,8).
+percurso(paracetamol,oculos,1000).
+percurso(paracetamol,lentes_contacto,200).
+
+%brufen
+percurso(brufen,descanso,2).
 percurso(brufen,fisioterapia,6).
-percurso(fisioterapia,end,0).
-percurso(fisioterapia,cirurgia,3).
-percurso(cirurgia,internamento,3).
-percurso(internamento,end,0).
+percurso(brufen,desporto,12).
+percurso(brufen,ginastica,15).
+percurso(brufen,oculos,1000).
+percurso(brufen,lentes_contacto,200).
+
+%aspirina
+percurso(aspirina,inalacoes,10).
+percurso(aspirina,insulina,30).
+percurso(aspirina,antibiotico,8).
+percurso(aspirina,dieta,30).
+percurso(aspirina,oculos,1000).
+percurso(aspirina,lentes_contacto,200).
+
 
 
 possibilidade_fim(start,fisioterapia).
@@ -52,7 +94,6 @@ possibilidade_fim(start,inalo_terapia).
 possibilidade_fim(start,oculos).
 possibilidade_fim(start,lentes_contacto).
 possibilidade_fim(start,ambulatorio).
-
 
 %Agora temos de fazer os prdicados para calcular o custo total e um para 
 % o tempo total que demora um percurso completo
