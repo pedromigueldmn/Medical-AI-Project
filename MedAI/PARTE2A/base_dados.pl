@@ -1,4 +1,5 @@
 %tratamento(tratamento,custo)
+tratamento(start,0).
 tratamento(paracetamol,5).
 tratamento(brufen,4).
 tratamento(aspirina,2).
@@ -17,7 +18,7 @@ tratamento(internamento,250).
 tratamento(dialise,100).
 tratamento(calmante,80).
 tratamento(injecoes,75).
-tratamento(inalo-terapia,90).
+tratamento(inalo_terapia,90).
 tratamento(soro,15).
 tratamento(oculos,500).
 tratamento(lentes_contacto,300).
