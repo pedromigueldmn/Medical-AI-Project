@@ -104,7 +104,7 @@ percurso(fisioterapia,ambulatorio,20).
 %cineterapia - 8                   
 percurso(cineterapia,calmante,90).
 
-%dieta   COMO TRATO DO CASO DA DIETA?
+%dieta   COMO TRATO DO CASO DA DIETA? (não tem estado)
 %percurso(dieta,ambulatorio,20).
 
 %injeccoes - 18
