@@ -83,6 +83,83 @@ percurso(aspirina,oculos,1000).
 percurso(aspirina,lentes_contacto,200).
 
 
+%##################################################################################################################################
+
+% Continuando a partir do código fornecido
+
+%anti_histaminico
+percurso(anti_histaminico,antibiotico,8).
+percurso(anti_histaminico,oculos,3).
+
+%descanso
+percurso(descanso,cineterapia,8).
+percurso(descanso,oculos,1000).
+percurso(descanso,lentes_contacto,200).
+
+%fisioterapia
+percurso(fisioterapia,cirurgia,3).
+percurso(fisioterapia,ginastica,15).
+percurso(fisioterapia,calmante,90).
+percurso(fisioterapia,injecoes,3).
+percurso(fisioterapia,ambulatorio,20).
+
+%cineterapia -                    FIQUEI NESTE. COMO TRATO DO CASO DA DIETA? PORQUE É 0?
+percurso(cineterapia,calmante,90).
+
+%dieta
+percurso(dieta,ambulatorio,20).
+
+%injeccoes
+percurso(injeccoes,inalo_terapia,6).
+
+%calmante
+percurso(calmante,ambulatorio,20).
+
+%inalacoes
+percurso(inalacoes,soro,8).
+
+%insulina
+percurso(insulina,dialise,10).
+
+%antibiotico
+percurso(antibiotico,dieta,30).
+
+%fisioterapia para clinico final
+percurso(fisioterapia,internamento,3).
+
+%outros percursos faltantes
+percurso(fisioterapia,ginastica,15).
+percurso(fisioterapia,ambulatorio,20).
+percurso(cineterapia,ambulatorio,20).
+percurso(descanso,oculos,1000).
+percurso(descanso,lentes_contacto,200).
+percurso(descanso,ambulatorio,20).
+percurso(brufen,ambulatorio,20).
+percurso(aspirina,ambulatorio,20).
+percurso(paracetamol,ambulatorio,20).
+
+possibilidade_fim(start,fisioterapia).
+possibilidade_fim(start,cineterapia).
+possibilidade_fim(start,antibiotico).
+possibilidade_fim(start,dieta).
+possibilidade_fim(start,internamento).
+possibilidade_fim(start,dialise).
+possibilidade_fim(start,inalo_terapia).
+possibilidade_fim(start,oculos).
+possibilidade_fim(start,lentes_contacto).
+possibilidade_fim(start,ambulatorio).
+
+
+
+
+
+
+
+%##################################################################################################################################
+
+
+
+
 
 possibilidade_fim(start,fisioterapia).
 possibilidade_fim(start,cineterapia).
