@@ -51,14 +51,14 @@ S20 - soro
 
 
 
-%start
+%start - 1
 percurso(start,paracetamol,2).
 percurso(start,brufen,3).
 percurso(start,aspirina,4).
 percurso(start,anti_histaminico,5).
 percurso(start,descanso,2).
 
-%paracetamol
+%paracetamol - 2
 percurso(paracetamol,descanso,2).
 percurso(paracetamol,fisioterapia,6).
 percurso(paracetamol,cineterapia,8).
@@ -66,7 +66,7 @@ percurso(paracetamol,antibiotico,8).
 percurso(paracetamol,oculos,1000).
 percurso(paracetamol,lentes_contacto,200).
 
-%brufen
+%brufen - 3
 percurso(brufen,descanso,2).
 percurso(brufen,fisioterapia,6).
 percurso(brufen,desporto,12).
@@ -74,7 +74,7 @@ percurso(brufen,ginastica,15).
 percurso(brufen,oculos,1000).
 percurso(brufen,lentes_contacto,200).
 
-%aspirina
+%aspirina - 4
 percurso(aspirina,inalacoes,10).
 percurso(aspirina,insulina,30).
 percurso(aspirina,antibiotico,8).
@@ -85,72 +85,44 @@ percurso(aspirina,lentes_contacto,200).
 
 %##################################################################################################################################
 
-% Continuando a partir do código fornecido
-
-%anti_histaminico
+%anti_histaminico - 5
 percurso(anti_histaminico,antibiotico,8).
 percurso(anti_histaminico,oculos,3).
 
-%descanso
+%descanso - 6
 percurso(descanso,cineterapia,8).
 percurso(descanso,oculos,1000).
 percurso(descanso,lentes_contacto,200).
 
-%fisioterapia
+%fisioterapia - 7
 percurso(fisioterapia,cirurgia,3).
 percurso(fisioterapia,ginastica,15).
 percurso(fisioterapia,calmante,90).
 percurso(fisioterapia,injecoes,3).
 percurso(fisioterapia,ambulatorio,20).
 
-%cineterapia -                    FIQUEI NESTE. COMO TRATO DO CASO DA DIETA? PORQUE É 0?
+%cineterapia - 8                   
 percurso(cineterapia,calmante,90).
 
-%dieta
-percurso(dieta,ambulatorio,20).
+%dieta   COMO TRATO DO CASO DA DIETA?
+%percurso(dieta,ambulatorio,20).
 
-%injeccoes
+%injeccoes - 18
 percurso(injeccoes,inalo_terapia,6).
+percurso(injeccoes,ambulatorio,20).
 
-%calmante
+%calmante - 17
 percurso(calmante,ambulatorio,20).
 
-%inalacoes
+%inalacoes - 11
 percurso(inalacoes,soro,8).
 
-%insulina
+%insulina - 12
 percurso(insulina,dialise,10).
+percurso(insulina,injecoes,3).
 
-%antibiotico
-percurso(antibiotico,dieta,30).
-
-%fisioterapia para clinico final
-percurso(fisioterapia,internamento,3).
-
-%outros percursos faltantes
-percurso(fisioterapia,ginastica,15).
-percurso(fisioterapia,ambulatorio,20).
-percurso(cineterapia,ambulatorio,20).
-percurso(descanso,oculos,1000).
-percurso(descanso,lentes_contacto,200).
-percurso(descanso,ambulatorio,20).
-percurso(brufen,ambulatorio,20).
-percurso(aspirina,ambulatorio,20).
-percurso(paracetamol,ambulatorio,20).
-
-possibilidade_fim(start,fisioterapia).
-possibilidade_fim(start,cineterapia).
-possibilidade_fim(start,antibiotico).
-possibilidade_fim(start,dieta).
-possibilidade_fim(start,internamento).
-possibilidade_fim(start,dialise).
-possibilidade_fim(start,inalo_terapia).
-possibilidade_fim(start,oculos).
-possibilidade_fim(start,lentes_contacto).
-possibilidade_fim(start,ambulatorio).
-
-
-
+%antibiotico 13
+percurso(antibiotico,internamento,3).
 
 
 
