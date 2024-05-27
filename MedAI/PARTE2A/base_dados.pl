@@ -26,30 +26,6 @@ tratamento(ambulatorio,800).
 tratamento(end,0).
 
 %percurso(Tratamento_origem,Tratamento_destino,tempo_do_tratamento_destino)
-/*
-S1 - start
-S2 - paracetamol
-S3 - brufen
-S4 - aspirina
-S5 - anti_histaminico
-S6 - descanso
-S7 - fisioterapia
-S8 - cineterapia
-S9 - desporto
-S10 - cirurgia
-S11 - inalacoes
-S12 - insulina
-S13 - antibiotico
-S14 - 
-S15 - ginastica
-S16 - 
-S17 - calmante
-S18 - injecoes
-S19 - 
-S20 - soro
-*/
-
-
 
 %start - 1
 percurso(start,paracetamol,2).
@@ -82,9 +58,6 @@ percurso(aspirina,dieta,30).
 percurso(aspirina,soro,8).
 percurso(aspirina,oculos,1000).
 percurso(aspirina,lentes_contacto,200).
-
-
-%##################################################################################################################################
 
 %anti_histaminico - 5
 percurso(anti_histaminico,antibiotico,8).
@@ -158,19 +131,6 @@ percurso(lentes_contacto,end,0).
 
 %Ambulatório - 24
 percurso(ambulatorio,end,0).
-
-
-
-
-
-
-
-
-
-
-%##################################################################################################################################
-
-
 
 
 
