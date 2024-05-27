@@ -79,6 +79,7 @@ percurso(aspirina,inalacoes,10).
 percurso(aspirina,insulina,30).
 percurso(aspirina,antibiotico,8).
 percurso(aspirina,dieta,30).
+percurso(aspirina,soro,8).
 percurso(aspirina,oculos,1000).
 percurso(aspirina,lentes_contacto,200).
 
@@ -87,7 +88,7 @@ percurso(aspirina,lentes_contacto,200).
 
 %anti_histaminico - 5
 percurso(anti_histaminico,antibiotico,8).
-percurso(anti_histaminico,oculos,3).
+percurso(anti_histaminico,internamento,3).
 
 %descanso - 6
 percurso(descanso,cineterapia,8).
@@ -95,34 +96,74 @@ percurso(descanso,oculos,1000).
 percurso(descanso,lentes_contacto,200).
 
 %fisioterapia - 7
+percurso(fisioterapia,end,0).
 percurso(fisioterapia,cirurgia,3).
 percurso(fisioterapia,ginastica,15).
 percurso(fisioterapia,calmante,90).
 percurso(fisioterapia,injecoes,3).
 percurso(fisioterapia,ambulatorio,20).
 
-%cineterapia - 8                   
+%cineterapia - 8           
+percurso(cineterapia,end,0).        
 percurso(cineterapia,calmante,90).
 
-%dieta   COMO TRATO DO CASO DA DIETA? (não tem estado)
-%percurso(dieta,ambulatorio,20).
+%Desporto - 9
+percurso(desporto,dieta,30).
+percurso(desporto,calmante,90).
 
-%injeccoes - 18
-percurso(injeccoes,inalo_terapia,6).
-percurso(injeccoes,ambulatorio,20).
+%Cirurgia - 10
+percurso(cirurgia,internamento,3).
+percurso(cirurgia,soro,8).
 
-%calmante - 17
-percurso(calmante,ambulatorio,20).
-
-%inalacoes - 11
+%Inalações - 11
 percurso(inalacoes,soro,8).
 
-%insulina - 12
+%Insulina - 12
 percurso(insulina,dialise,10).
 percurso(insulina,injecoes,3).
 
-%antibiotico 13
+%Antibiótico - 13
 percurso(antibiotico,internamento,3).
+
+%Dieta - 14
+percurso(dieta,end,0).
+
+%Ginástica - 15
+percurso(ginastica,ambulatorio,20).
+
+%Internamento - 16
+percurso(internamento,end,0).
+
+%Diálise - 17
+percurso(internamento,end,0).
+
+%Calmante - 18
+percurso(calmante,ambulatorio,20).
+
+%Injecoes - 19
+percurso(injeccoes,inalo_terapia,6).
+percurso(injeccoes,ambulatorio,20).
+
+%Inalo-Terapia - 20
+percurso(inalo_terapia,end,0).
+
+%Soro - 21
+percurso(soro,ambulatorio,20).
+
+%Óculos - 22
+percurso(oculos,end,0).
+
+%Lentes Contacto - 23
+percurso(lentes_contacto,end,0).
+
+%Ambulatório - 24
+percurso(ambulatorio,end,0).
+
+
+
+
+
+
 
 
 
