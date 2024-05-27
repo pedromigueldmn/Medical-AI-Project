@@ -511,7 +511,7 @@ imprimir_tratamentos([farmacologico(Nome, Idade, Dose, Descricao, Gravida_Pode_T
     format('    Idade: ~w~n', [Idade]),
     format('    Dose: ~w~n', [Dose]),
     format('    Descrição: ~w~n', [Descricao]),
-    format('    Gravidez: ~w~n', [Gravida_Pode_Tomar]),
+    format('    Aconselhado para grávidas: ~w~n', [Gravida_Pode_Tomar]),
     format('    Tipo: ~w~n~n', [Tipo]),
     imprimir_tratamentos(Resto).
 imprimir_tratamentos([naofarmacologico(Tipo, Descricao)|Resto]) :-
