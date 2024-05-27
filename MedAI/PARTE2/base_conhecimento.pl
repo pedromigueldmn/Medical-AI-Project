@@ -100,3 +100,28 @@ caminhoMaisCaro(X, Y, Caminho, Custo) :-
 maisCaro(Caminho, Custo) :- 
     custo(Caminho, Custo), 
     \+ (custo(_, Custo1), Custo1 > Custo).
+
+
+% CaminhoMaisVantajoso
+caminhoMaisVantajoso(X, Y, Caminho, Vantagem, Tempo, Custo) :- 
+    retractall(duracao(_,_)), 
+    retractall(custo(_,_)), 
+    listaCaminhos(X, Y, Lista), 
+    gerarTemposCaminhos(Lista), 
+    gerarCustosCaminhos(Lista), 
+    maisVantajoso(Caminho, Vantagem, Tempo, Custo).
+
+maisVantajoso(Caminho, Vantagem, Tempo, Custo) :- 
+    duracao(Caminho, Tempo), 
+    custo(Caminho, Custo), 
+    valorVantagem(Caminho, Vantagem), 
+    \+ (duracao(_, _), custo(_, _), 
+        valorVantagem(_, Vantagem1), 
+        Vantagem1 < Vantagem).
+
+valorVantagem(Caminho, Vantagem) :- 
+    duracao(Caminho, Tempo), 
+    custo(Caminho, Custo), 
+    Vantagem is Tempo + Custo.
+
+% Utilize o predicado caminhoMaisVantajoso para encontrar o caminho mais vantajoso
