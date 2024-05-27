@@ -1,71 +1,123 @@
-% Definição dos arcos e tempos (dias/sessões) baseados na tabela fornecida
-arco(s1, s2, 2).
-arco(s1, s3, 3).
-arco(s1, s4, 4).
-arco(s1, s5, 5).
-arco(s1, s6, 2).
-arco(s2, s6, 2).
-arco(s2, s7, 6).
-arco(s2, s0, 6).
-arco(s2, s8, 8).
-arco(s3, s6, 2).
-arco(s3, s7, 6).
-arco(s3, s9, 12).
-arco(s3, s15, 15).
-arco(s4, s6, 2).
-arco(s4, s11, 10).
-arco(s4, s12, 30).
-arco(s4, s0, 30).
-arco(s4, s13, 8).
-arco(s4, s9, 30).
-arco(s5, s6, 2).
-arco(s5, s0, 8).
-arco(s5, s13, 8).
-arco(s6, s20, 20).
-arco(s6, s0, 20).
-arco(s7, s10, 3).
-arco(s7, s17, 90).
-arco(s8, s17, 90).
-arco(s9, s0, 30).
-arco(s9, s17, 90).
-arco(s10, s0, 3).
-arco(s11, s0, 10).
-arco(s12, s18, 3).
-arco(s12, s0, 10).
-arco(s13, s0, 8).
-arco(s15, s0, 15).
-arco(s17, s18, 3).
-arco(s18, s0, 6).
+% Definição dos tratamentos e seus custos
+tratamento(start, 0).
+tratamento(paracetamol, 5).
+tratamento(brufen, 4).
+tratamento(aspirina, 2).
+tratamento(anti_histaminico, 8).
+tratamento(descanso, 100).
+tratamento(fisioterapia, 150).
+tratamento(cineterapia, 200).
+tratamento(desporto, 0).
+tratamento(cirurgia, 1200).
+tratamento(inalacoes, 50).
+tratamento(insulina, 34).
+tratamento(antibiotico, 25).
+tratamento(dieta, 0).
+tratamento(ginastica, 90).
+tratamento(internamento, 250).
+tratamento(dialise, 100).
+tratamento(calmante, 80).
+tratamento(injecoes, 75).
+tratamento(inalo_terapia, 90).
+tratamento(soro, 15).
+tratamento(oculos, 500).
+tratamento(lentes_contacto, 300).
+tratamento(ambulatorio, 800).
+tratamento(end, 0).
 
-% Definição dos custos (€) baseados na tabela fornecida
-custo(s1, 0).
-custo(s2, 5).
-custo(s3, 4).
-custo(s4, 2).
-custo(s5, 8).
-custo(s6, 100).
-custo(s7, 150).
-custo(s8, 200).
-custo(s9, 0).
-custo(s10, 1200).
-custo(s11, 50).
-custo(s12, 34).
-custo(s13, 25).
-custo(s15, 90).
-custo(s17, 80).
-custo(s18, 75).
-custo(s20, 15).
+% Definição dos arcos e tempos (dias/sessões)
+percurso(start, paracetamol, 2).
+percurso(start, brufen, 3).
+percurso(start, aspirina, 4).
+percurso(start, anti_histaminico, 5).
+percurso(start, descanso, 2).
+
+percurso(paracetamol, descanso, 2).
+percurso(paracetamol, fisioterapia, 6).
+percurso(paracetamol, cineterapia, 8).
+percurso(paracetamol, antibiotico, 8).
+percurso(paracetamol, oculos, 1000).
+percurso(paracetamol, lentes_contacto, 200).
+
+percurso(brufen, descanso, 2).
+percurso(brufen, fisioterapia, 6).
+percurso(brufen, desporto, 12).
+percurso(brufen, ginastica, 15).
+percurso(brufen, oculos, 1000).
+percurso(brufen, lentes_contacto, 200).
+
+percurso(aspirina, inalacoes, 10).
+percurso(aspirina, insulina, 30).
+percurso(aspirina, antibiotico, 8).
+percurso(aspirina, dieta, 30).
+percurso(aspirina, soro, 8).
+percurso(aspirina, oculos, 1000).
+percurso(aspirina, lentes_contacto, 200).
+
+percurso(anti_histaminico, antibiotico, 8).
+percurso(anti_histaminico, internamento, 3).
+
+percurso(descanso, cineterapia, 8).
+percurso(descanso, oculos, 1000).
+percurso(descanso, lentes_contacto, 200).
+
+percurso(fisioterapia, end, 0).
+percurso(fisioterapia, cirurgia, 3).
+percurso(fisioterapia, ginastica, 15).
+percurso(fisioterapia, calmante, 90).
+percurso(fisioterapia, injecoes, 3).
+percurso(fisioterapia, ambulatorio, 20).
+
+percurso(cineterapia, end, 0).
+percurso(cineterapia, calmante, 90).
+
+percurso(desporto, dieta, 30).
+percurso(desporto, calmante, 90).
+
+percurso(cirurgia, internamento, 3).
+percurso(cirurgia, soro, 8).
+
+percurso(inalacoes, soro, 8).
+
+percurso(insulina, dialise, 10).
+percurso(insulina, injecoes, 3).
+
+percurso(antibiotico, internamento, 3).
+
+percurso(dieta, end, 0).
+
+percurso(ginastica, ambulatorio, 20).
+
+percurso(internamento, end, 0).
+
+percurso(dialise, end, 0).
+
+percurso(calmante, ambulatorio, 20).
+
+percurso(injecoes, inalo_terapia, 6).
+percurso(injecoes, ambulatorio, 20).
+
+percurso(inalo_terapia, end, 0).
+
+percurso(soro, ambulatorio, 20).
+
+percurso(oculos, end, 0).
+
+percurso(lentes_contacto, end, 0).
+
+percurso(ambulatorio, end, 0).
+
 
 % Função para calcular o custo total de um caminho
 eval([_], 0).
 eval([D, O | X], C) :-
-    custo(O, C1),
+    tratamento(O, C1),
     eval([O | X], C2),
     C is C1 + C2.
 
 % Definir a origem e o destino
-origem(s1).       %dizer s1 e dizer start é a mesma coisa
-destino(s0).
+origem(start).
+destino(end).
 
 % Função para encontrar novos caminhos
 change(S, SNEW) :-
@@ -87,7 +139,7 @@ demo :-
 caminho(X, Z, C) :- caminho(X, Z, [X], C).
 caminho(X, X, Caminho, Caminho).
 caminho(X, Z, Visitado, Caminho) :-
-    arco(X, Y, _),
+    percurso(X, Y, _),
     \+ member(Y, Visitado),
     caminho(Y, Z, [Y | Visitado], Caminho).
 
@@ -114,7 +166,7 @@ show(0, Verbose, S1, E1, _, _) :-
 show(I, Verbose, S1, E1, S2, E2) :-
     0 is I mod Verbose,
     write('iter:'), write(I), write(' S1:'), write(S1), write(' E1:'),
-    write(E1), write(' S2:'), write(S2), write(' E2:'), write(E2), nl.
+    write(E1), write(' S2:'), write(S2), write(' E2:'), nl.
 show(_, _, _, _, _, _).
 
 % Algoritmo de Hill Climbing
