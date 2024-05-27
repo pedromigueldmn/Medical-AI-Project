@@ -1,13 +1,13 @@
 % Carregar a base de dados fictícia com arcos e custos
 :- initialization(main).
 
-% Definições dos arcos com custos associados
+% Definições dos arcos com custos associados - falta continuar
 arco(s0, s1, 480).
 arco(s0, s2, 520).
 arco(s1, s2, 150).
 arco(s1, s3, 200).
 arco(s2, s3, 320).
-% Adicione aqui todos os outros arcos mostrados no seu gráfico
+
 
 % Custo para se mover entre dois pontos, se não existe ligação direta, custo é considerado infinito
 custo(X, Y, Custo) :- arco(X, Y, Custo); arco(Y, X, Custo).
