@@ -1,5 +1,3 @@
-% hillclimbing.pl
-
 % Carregar a base de dados
 :- consult('base_dados.pl').
 
@@ -92,3 +90,8 @@ demo_hill_climbing :-
     write('Custo: '), write(Custo), nl, 
     write('Tempo: '), write(Tempo), nl, 
     write('Vantagem: '), write(Vantagem), nl, !.
+
+
+
+
+% PARA TESTARES, COLOCA O SEGUINTE NO TERMINAL: "  demo_hill_climbing.  "
