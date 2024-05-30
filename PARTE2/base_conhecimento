@@ -101,7 +101,6 @@ maisCaro(Caminho, Custo) :-
     custo(Caminho, Custo), 
     \+ (custo(_, Custo1), Custo1 > Custo).
 
-
 % CaminhoMaisVantajoso
 caminhoMaisVantajoso(X, Y, Caminho, Vantagem, Tempo, Custo) :- 
     retractall(duracao(_,_)), 
@@ -122,6 +121,6 @@ maisVantajoso(Caminho, Vantagem, Tempo, Custo) :-
 valorVantagem(Caminho, Vantagem) :- 
     duracao(Caminho, Tempo), 
     custo(Caminho, Custo), 
-    Vantagem is Tempo + Custo.
+    Vantagem is Custo / Tempo.
 
-% Utilize o predicado caminhoMaisVantajoso para encontrar o caminho mais vantajoso
+

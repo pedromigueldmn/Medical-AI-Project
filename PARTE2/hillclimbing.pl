@@ -84,13 +84,19 @@ percurso(oculos, end, 0).
 percurso(lentes_contacto, end, 0).
 percurso(ambulatorio, end, 0).
 
-% Função para calcular o custo total de um caminho (custo + tempo)
+% Função para calcular o rácio custo/tempo de um caminho
 eval([_], 0).
-eval([D, O | X], C) :-
+eval([D, O | X], Racio) :-
     tratamento(O, CustoO),
     percurso(O, D, TempoD),
-    eval([O | X], C2),
-    C is CustoO + TempoD + C2.
+    (TempoD =:= 0 -> 
+        TempoAjustado = 0.0001 
+    ; 
+        TempoAjustado = TempoD),
+    CustoTempoRacio is CustoO / TempoAjustado,
+    eval([O | X], SubRacio),
+    Racio is CustoTempoRacio + SubRacio.
+
 
 % Definir a origem e o destino
 origem(start).
