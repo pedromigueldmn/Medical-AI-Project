@@ -144,9 +144,3 @@ possibilidade_fim(start,inalo_terapia).
 possibilidade_fim(start,oculos).
 possibilidade_fim(start,lentes_contacto).
 possibilidade_fim(start,ambulatorio).
-
-%Agora temos de fazer os prdicados para calcular o custo total e um para 
-% o tempo total que demora um percurso completo
-
-%Depois de verificarmos que tudo está a funcionar bem, temos de fazer o resto
-%dos percursos tendo em conta o grafo do professor

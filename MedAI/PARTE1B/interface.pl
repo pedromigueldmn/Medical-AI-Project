@@ -11,12 +11,14 @@ learn_rules:-
     listing(<==),
     told.
 
-% Exemplo de classificação para doenças
+% Exemplo de classificação para doenças  
+% doenca nao infeciosa
 q1(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adolescente], Class).
 q2(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=crianca], Class).
 q3(Class):- classify([alteracoes_pele=nao, hereditaria=sim, febre=nao], Class).
 q4(Class):- classify([alteracoes_pele=sim, febre=nao], Class).
 
+%doenca infeciosa
 q5(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto, alteracoes_humor_comportamento=nao], Class).
 q6(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=adulto_jovem], Class).
 q7(Class):- classify([alteracoes_pele=nao, hereditaria=nao, faixa_etaria=idoso], Class).
@@ -31,7 +33,7 @@ q11(Class):- findall(A,fact(A),Z), classify(Z,Class), retractall(fact(_)).
 menu :- 
     write(
     "
-                  Gostaria de descobrir qual a doença que o atormenta?
+                  Gostaria de descobrir qual o tipo da doença que o atormenta?
                   Seja bem-vindo ao sistema de recomendacao!*_*
 
     "), nl,

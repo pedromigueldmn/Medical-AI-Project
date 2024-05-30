@@ -31,21 +31,18 @@ percurso(start, brufen, 3).
 percurso(start, aspirina, 4).
 percurso(start, anti_histaminico, 5).
 percurso(start, descanso, 2).
-
 percurso(paracetamol, descanso, 2).
 percurso(paracetamol, fisioterapia, 6).
 percurso(paracetamol, cineterapia, 8).
 percurso(paracetamol, antibiotico, 8).
 percurso(paracetamol, oculos, 1000).
 percurso(paracetamol, lentes_contacto, 200).
-
 percurso(brufen, descanso, 2).
 percurso(brufen, fisioterapia, 6).
 percurso(brufen, desporto, 12).
 percurso(brufen, ginastica, 15).
 percurso(brufen, oculos, 1000).
 percurso(brufen, lentes_contacto, 200).
-
 percurso(aspirina, inalacoes, 10).
 percurso(aspirina, insulina, 30).
 percurso(aspirina, antibiotico, 8).
@@ -53,58 +50,38 @@ percurso(aspirina, dieta, 30).
 percurso(aspirina, soro, 8).
 percurso(aspirina, oculos, 1000).
 percurso(aspirina, lentes_contacto, 200).
-
 percurso(anti_histaminico, antibiotico, 8).
 percurso(anti_histaminico, internamento, 3).
-
 percurso(descanso, cineterapia, 8).
 percurso(descanso, oculos, 1000).
 percurso(descanso, lentes_contacto, 200).
-
 percurso(fisioterapia, end, 0).
 percurso(fisioterapia, cirurgia, 3).
 percurso(fisioterapia, ginastica, 15).
 percurso(fisioterapia, calmante, 90).
 percurso(fisioterapia, injecoes, 3).
 percurso(fisioterapia, ambulatorio, 20).
-
 percurso(cineterapia, end, 0).
 percurso(cineterapia, calmante, 90).
-
 percurso(desporto, dieta, 30).
 percurso(desporto, calmante, 90).
-
 percurso(cirurgia, internamento, 3).
 percurso(cirurgia, soro, 8).
-
 percurso(inalacoes, soro, 8).
-
 percurso(insulina, dialise, 10).
 percurso(insulina, injecoes, 3).
-
 percurso(antibiotico, internamento, 3).
-
 percurso(dieta, end, 0).
-
 percurso(ginastica, ambulatorio, 20).
-
 percurso(internamento, end, 0).
-
 percurso(dialise, end, 0).
-
 percurso(calmante, ambulatorio, 20).
-
 percurso(injecoes, inalo_terapia, 6).
 percurso(injecoes, ambulatorio, 20).
-
 percurso(inalo_terapia, end, 0).
-
 percurso(soro, ambulatorio, 20).
-
 percurso(oculos, end, 0).
-
 percurso(lentes_contacto, end, 0).
-
 percurso(ambulatorio, end, 0).
 
 % Função para calcular o custo total de um caminho (custo + tempo)
