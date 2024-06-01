@@ -1,5 +1,6 @@
 :- dynamic duracao/2.
 :- dynamic custo/2.
+:- dynamic tempo/2.
 :- [base_dados].
 
 % CustoCaminho
@@ -123,4 +124,76 @@ valorVantagem(Caminho, Vantagem) :-
     custo(Caminho, Custo), 
     Vantagem is Custo / Tempo.
 
+% CaminhoMenosVantajoso
+caminhoMenosVantajoso(X, Y, Caminho, Vantagem, Tempo, Custo) :- 
+    retractall(duracao(_,_)), 
+    retractall(custo(_,_)), 
+    listaCaminhos(X, Y, Lista), 
+    gerarTemposCaminhos(Lista), 
+    gerarCustosCaminhos(Lista), 
+    menosVantajoso(Caminho, Vantagem, Tempo, Custo).
 
+menosVantajoso(Caminho, Vantagem, Tempo, Custo) :- 
+    duracao(Caminho, Tempo), 
+    custo(Caminho, Custo), 
+    valorVantagem(Caminho, Vantagem), 
+    \+ (duracao(_, _), custo(_, _), 
+        valorVantagem(_, Vantagem1), 
+        Vantagem1 > Vantagem).
+
+valorVantagem(Caminho, Vantagem) :- 
+    duracao(Caminho, Tempo), 
+    custo(Caminho, Custo), 
+    Vantagem is Custo / Tempo.
+
+% Funções para imprimir os resultados
+
+% Função para imprimir o caminho mais vantajoso
+imprimirCaminhoMaisVantajoso(X, Y) :-
+    caminhoMaisVantajoso(X, Y, Caminho, Vantagem, Tempo, Custo),
+    imprimir_resultado('Caminho Mais Vantajoso', Caminho, Vantagem, Tempo, Custo).
+
+% Função para imprimir o caminho menos vantajoso
+imprimirCaminhoMenosVantajoso(X, Y) :-
+    caminhoMenosVantajoso(X, Y, Caminho, Vantagem, Tempo, Custo),
+    imprimir_resultado('Caminho Menos Vantajoso', Caminho, Vantagem, Tempo, Custo).
+
+% Função para imprimir o caminho mais barato
+imprimirCaminhoMaisBarato(X, Y) :-
+    caminhoMaisBarato(X, Y, Caminho, Custo),
+    imprimir_resultado_custo('Caminho Mais Barato', Caminho, Custo).
+
+% Função para imprimir o caminho mais caro
+imprimirCaminhoMaisCaro(X, Y) :-
+    caminhoMaisCaro(X, Y, Caminho, Custo),
+    imprimir_resultado_custo('Caminho Mais Caro', Caminho, Custo).
+
+% Função para imprimir o caminho mais curto
+imprimirCaminhoMaisCurto(X, Y) :-
+    caminhoMaisCurto(X, Y, Caminho, Tempo),
+    imprimir_resultado_tempo('Caminho Mais Curto', Caminho, Tempo).
+
+% Função para imprimir o caminho mais longo
+imprimirCaminhoMaisLongo(X, Y) :-
+    caminhoMaisLongo(X, Y, Caminho, Tempo),
+    imprimir_resultado_tempo('Caminho Mais Longo', Caminho, Tempo).
+
+% Função para imprimir resultado com vantagem, tempo e custo
+imprimir_resultado(Titulo, Caminho, Vantagem, Tempo, Custo) :-
+    write(Titulo), nl,
+    write('Caminho: '), write(Caminho), nl,
+    write('Vantagem: '), write(Vantagem), nl,
+    write('Tempo: '), write(Tempo), nl,
+    write('Custo: '), write(Custo), nl, nl.
+
+% Função para imprimir resultado com custo
+imprimir_resultado_custo(Titulo, Caminho, Custo) :-
+    write(Titulo), nl,
+    write('Caminho: '), write(Caminho), nl,
+    write('Custo: '), write(Custo), nl, nl.
+
+% Função para imprimir resultado com tempo
+imprimir_resultado_tempo(Titulo, Caminho, Tempo) :-
+    write(Titulo), nl,
+    write('Caminho: '), write(Caminho), nl,
+    write('Tempo: '), write(Tempo), nl, nl.

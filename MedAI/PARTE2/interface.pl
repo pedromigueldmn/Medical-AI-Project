@@ -7,39 +7,32 @@
 
 % Interface principal
 iniciar :-
-    nl,nl,
+    nl, nl,
     write('-------------------------------'), nl,
-    write('Insira o que pretende calcular:'), nl,nl,
+    write('Insira o que pretende calcular:'), nl, nl,
     write('1. Caminho com menor custo'), nl,
     write('2. Caminho com maior custo'), nl,
     write('3. Caminho com menor tempo'), nl,
     write('4. Caminho com maior tempo'), nl,
-    write('5. Caminho mais vantajoso'), nl,nl,
+    write('5. Caminho mais vantajoso'), nl,
+    write('6. Caminho menos vantajoso'), nl, nl,
     read(Opcao),
     tratar_opcao(Opcao).
 
 tratar_opcao(1) :-
-    caminhoMaisBarato(start, end, Caminho, Custo),
-    write('Caminho com menor custo: '), write(Caminho), nl,
-    write('Custo: '), write(Custo), nl,
+    imprimirCaminhoMaisBarato(start, end),
     iniciar.
 
 tratar_opcao(2) :-
-    caminhoMaisCaro(start, end, Caminho, Custo),
-    write('Caminho com maior custo: '), write(Caminho), nl,
-    write('Custo: '), write(Custo), nl,
+    imprimirCaminhoMaisCaro(start, end),
     iniciar.
 
 tratar_opcao(3) :-
-    caminhoMaisCurto(start, end, Caminho, Tempo),
-    write('Caminho com menor tempo: '), write(Caminho), nl,
-    write('Tempo: '), write(Tempo), nl,
+    imprimirCaminhoMaisCurto(start, end),
     iniciar.
 
 tratar_opcao(4) :-
-    caminhoMaisLongo(start, end, Caminho, Tempo),
-    write('Caminho com maior tempo: '), write(Caminho), nl,
-    write('Tempo: '), write(Tempo), nl,
+    imprimirCaminhoMaisLongo(start, end),
     iniciar.
 
 tratar_opcao(5) :-
@@ -51,15 +44,13 @@ tratar_opcao(5) :-
     iniciar.
 
 tratar_opcao_algoritmo(1) :-
-    caminhoMaisVantajoso(start, end, Caminho, Vantagem, Tempo, Custo),
-    write('Caminho mais vantajoso (depthfirst): '), write(Caminho), nl,
-    write('Vantagem: '), write(Vantagem), nl,
-    write('Tempo: '), write(Tempo), nl,
-    write('Custo: '), write(Custo), nl,
+    imprimirCaminhoMaisVantajoso(start, end),
     iniciar.
 
 tratar_opcao_algoritmo(2) :-
     demo,
     iniciar.
 
-
+tratar_opcao(6) :-
+    imprimirCaminhoMenosVantajoso(start, end),
+    iniciar.
