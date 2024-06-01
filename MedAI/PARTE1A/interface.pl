@@ -31,7 +31,7 @@ avaliarEscolha(_):- write('Introduza uma opção válida, por favor comece de no
 questao1:- write('********************************************************************************************************'), nl,
            write('**  Qual a sua idade?'), nl,
            write('**'), nl,
-           write('**  1 - Entre 0-3 meses (bebé)'), nl,
+           write('**  1 - Entre 0-3 anos (bebé)'), nl,
            write('**  2 - Entre 4-10 anos (criança)'), nl,
            write('**  3 - Entre 11-17 anos (adolescente)'), nl,
            write('**  4 - Maior de 18 anos (adulto)'), nl, nl,
