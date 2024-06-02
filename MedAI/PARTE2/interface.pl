@@ -16,7 +16,7 @@ iniciar :-
     write('4. Caminho com maior tempo'), nl,
     write('5. Caminho mais vantajoso'), nl,
     write('6. Caminho menos vantajoso'), nl, nl,
-    read(Opcao),
+    read(Opcao), nl,
     tratar_opcao(Opcao).
 
 tratar_opcao(1) :-
@@ -36,9 +36,10 @@ tratar_opcao(4) :-
     iniciar.
 
 tratar_opcao(5) :-
-    write('Qual algoritmo deseja usar?'), nl,
+    nl,
+    write('Qual algoritmo deseja utilizar?'), nl,
     write('1. Depthfirst'), nl,
-    write('2. Hill Climbing'), nl,
+    write('2. Hill Climbing'), nl,nl,
     read(OpcaoAlgoritmo),
     tratar_opcao_algoritmo(OpcaoAlgoritmo),
     iniciar.
